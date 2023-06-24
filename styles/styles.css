@@ -1,0 +1,30 @@
+body {
+    margin: 1em 1em 0 1em;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1em;
+}
+
+body > header > h1 {
+    font-size: 3em;
+    border-bottom: 1px solid gray;
+    margin-bottom: 1em;
+}
+
+body > header > span {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+a:hover {
+    cursor: pointer;
+    color: gray;
+}
+
+footer {
+    clear: both;
+    text-align: center;
+    width: 100%;
+    font-size: 0.6em;
+    border-top: 1px solid gray;
+}
