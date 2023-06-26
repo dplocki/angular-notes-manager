@@ -130,5 +130,4 @@ dist
 .pnp.*
 
 # All generated files
-app/**/*.js
-app/**/*.js.map
+.angular/
