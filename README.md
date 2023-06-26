@@ -2,48 +2,12 @@
 
 The small Angular2 application. Main and only purpose: managing notes (save in browser `localStorage`). Allow to create, edit and deleting notes. Autosave is available.
 
-## Prerequisites
+## Historic background
 
-Node.js and npm are essential to Angular development.
+This was a recruitment project. Also one of mine first projects in Angular (I had few in AngularJS before).
+I decide to upgrade it, since I couldn't run it, even with proper Node version from the time.
 
-<a href="https://docs.npmjs.com/getting-started/installing-node" target="_blank" title="Installing Node.js and updating npm">
-Get it now</a> if it's not already installed on your machine.
-
-**Verify that you are running at least node `v4.x.x` and npm `3.x.x`**
-by running `node -v` and `npm -v` in a terminal/console window.
-Older versions produce errors.
-
-We recommend [nvm](https://github.com/creationix/nvm) for managing multiple versions of node and npm.
-
-
-## Install npm packages
-
-> See npm and nvm version notes above
-
-Install the npm packages described in the `package.json` and verify that it works:
-
-```bash
-npm install
-npm start
-```
-
-The `npm start` command first compiles the application,
-then simultaneously re-compiles and runs the `lite-server`.
-Both the compiler and the server watch for file changes.
-
-Shut it down manually with `Ctrl-C`.
-
-### Npm scripts
-
-We've captured many of the most useful commands in npm scripts defined in the `package.json`:
-
-* `npm start` - runs the compiler and a server at the same time, both in "watch mode".
-* `npm run tsc` - runs the TypeScript compiler once.
-* `npm run tsc:w` - runs the TypeScript compiler in watch mode; the process keeps running, awaiting changes to TypeScript files and re-compiling when it sees them.
-* `npm run lite` - runs the [lite-server](https://www.npmjs.com/package/lite-server), a light-weight, static file server, written and maintained by
-[John Papa](https://github.com/johnpapa) and
-[Christopher Martin](https://github.com/cgmartin)
-with excellent support for Angular apps that use routing.
+The original code is available in this repo by tag: [1.0.0](https://github.com/dplocki/angular-notes-manager/releases/tag/1.0.0).
 
 ## Docker
 
@@ -51,3 +15,13 @@ with excellent support for Angular apps that use routing.
 docker build . -t angular-notes-manager
 docker run --rm -p 4200:4200 -p 9876:9876 -p 49153:49153 -v $(pwd):/build -it angular-notes-manager
 ```
+
+### Running the Angular app in container
+
+You need to specify the host of the app (in `angular.json` configuration file) or by command:
+
+```sh
+ng serve --host 0.0.0.0
+```
+
+The need ports are: `4200` and `49153` for refresh.
