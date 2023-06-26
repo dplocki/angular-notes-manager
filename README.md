@@ -49,5 +49,5 @@ with excellent support for Angular apps that use routing.
 
 ```sh
 docker build . -t angular-notes-manager
-docker run --rm -it -p 4200:4200 -v $(pwd):/build angular-notes-manager
+docker run --rm -p 4200:4200 -p 9876:9876 -p 49153:49153 -v $(pwd):/build -it angular-notes-manager
 ```
