@@ -44,3 +44,10 @@ We've captured many of the most useful commands in npm scripts defined in the `p
 [John Papa](https://github.com/johnpapa) and
 [Christopher Martin](https://github.com/cgmartin)
 with excellent support for Angular apps that use routing.
+
+## Docker
+
+```sh
+docker build . -t angular-notes-manager
+docker run --rm -it -p 4200:4200 -v $(pwd):/build angular-notes-manager
+```

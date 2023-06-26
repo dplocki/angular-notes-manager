@@ -1,7 +1,8 @@
-FROM node:7-alpine
+FROM node:20-alpine
 
 WORKDIR /build
 
 EXPOSE 4200
+EXPOSE 9876
 
-CMD [ "/bin/sh" ]
+CMD [ "npm", "run", "start" ]
