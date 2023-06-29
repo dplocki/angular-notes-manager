@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { NoteDetailComponent } from './note-detail/note-detail.component';
 import { NoteListComponent } from './note-list/note-list.component';
 import { NoteTitlePipe } from './note-title.pipe';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { NoteTitlePipe } from './note-title.pipe';
     NoteTitlePipe
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
