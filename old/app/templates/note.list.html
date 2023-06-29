@@ -1,7 +1,0 @@
-<ol>
-    <li *ngFor="let note of notes" [class.selected]="note == selectedNote" (click)="selectNote(note)">
-        <a *ngIf="note|noteTitle">{{ note | noteTitle }}</a><!-- appenty there is no simple way to replace those three pipe calls -->
-        <a *ngIf="!(note|noteTitle)" class="empty">(empty)</a>
-        <span>[<a (click)="deleteNote(note)">Delete</a>]</span>
-    </li>
-</ol>
