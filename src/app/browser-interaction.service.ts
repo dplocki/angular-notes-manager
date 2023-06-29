@@ -4,9 +4,9 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class BrowserInteractionService {
-  question(arg0: string): boolean {
-    throw new Error('Method not implemented.');
+
+  public question(yesNoQuestion: string): boolean {
+    return confirm(yesNoQuestion);
   }
 
-  constructor() { }
 }
