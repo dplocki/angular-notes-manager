@@ -6,6 +6,8 @@ import { NoteDetailComponent } from './note-detail/note-detail.component';
 import { NoteListComponent } from './note-list/note-list.component';
 import { NoteTitlePipe } from './note-title.pipe';
 import { FormsModule } from '@angular/forms';
+import { LoggerService } from './logger.service';
+import { SilenceLoggerService } from './silence-logger.service';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { FormsModule } from '@angular/forms';
     BrowserModule,
     FormsModule
   ],
-  providers: [],
+  providers: [
+    { provide: LoggerService, useClass: SilenceLoggerService }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
