@@ -1,26 +1,41 @@
 import { Injectable } from '@angular/core';
 import { Note } from './note';
+import { IdGeneratorService } from './id-generator.service';
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NoteService {
 
+  constructor(
+    private storageService: LocalStorageService,
+    private idGeneratorService: IdGeneratorService
+  ) {
+  }
+
   getNotes(): Promise<Note[]> {
-    throw new Error('Method not implemented.');
+    return this.storageService.loadNotes()
+      .then(notes => {
+        notes.forEach(n => this.idGeneratorService.checkNumber(n.id));
+
+        return notes;
+      });
+  }
+
+  saveNotes(notes: Note[]): Promise<Note[]> {
+    return this.storageService.saveNotes(notes);
+  }
+
+  saveNote(note: Note): Promise<Note> {
+    return this.storageService.saveNote(note);
   }
 
   createNote(): Note {
-    throw new Error('Method not implemented.');
+    return new Note('', this.idGeneratorService.getIdForNew());
   }
 
-  deleteNote(note: Note) {
-    throw new Error('Method not implemented.');
+  deleteNote(note: Note): Promise<Note> {
+    return this.storageService.deleteNote(note);
   }
-
-  saveNote(note: Note): Promise<void> {
-    throw new Error('Method not implemented.');
-  }
-
-  constructor() { }
 }
