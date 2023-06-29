@@ -4,12 +4,19 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class IdGeneratorService {
-  checkNumber(id: any) {
-    throw new Error('Method not implemented.');
-  }
-  getIdForNew(): number {
-    throw new Error('Method not implemented.');
+  nextId: number = 1;
+
+  public getIdForNew() {
+    const id = this.nextId;
+
+    this.nextId++;
+
+    return id;
   }
 
-  constructor() { }
+  public checkNumber(id: number) {
+    if (this.nextId < id) {
+      this.nextId = id++;
+    }
+  }
 }
