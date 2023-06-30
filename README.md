@@ -1,15 +1,17 @@
-# Angular Notes Manager
+# 🗒️ Angular Notes Manager
 
 The small Angular2 application. Main and only purpose: managing notes (save in browser `localStorage`). Allow to create, edit and deleting notes. Autosave is available.
 
-## Historic background
+## 📜 Historic background
 
 This was a recruitment project. Also one of mine first projects in Angular (I had few in AngularJS before).
 I decide to upgrade it, since I couldn't run it, even with proper Node version from the time.
 
+At the time (around 2016) I have used Angular 5, based on Node 7.
+
 The original code is available in this repo by tag: [1.0.0](https://github.com/dplocki/angular-notes-manager/releases/tag/1.0.0).
 
-## Docker
+## 🛠️ Docker
 
 ```sh
 docker build . -t angular-notes-manager
