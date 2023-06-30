@@ -28,7 +28,7 @@ export class AppComponent {
     this.setNotes([]);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.noteService
       .getNotes()
       .then((notes: Note[]) => {
@@ -37,24 +37,24 @@ export class AppComponent {
       });
   }
 
-  selectedNoteChange(note: Note) {
+  selectedNoteChange(note: Note): void {
     this.callSaveNoteFromService(this.selectedNote);
     this.selectedNote = note;
     this.changeDetector.setNote(note);
   }
 
-  deleteNoteFromList(note: Note) {
+  deleteNoteFromList(note: Note): void {
     this.deleteNote(note);
   }
 
-  addNoteButtonClick(event: any) {
+  addNoteButtonClick(event: any): void {
     const newNote = this.noteService.createNote();
 
     this.notes.push(newNote);
     this.selectedNoteChange(newNote);
   }
 
-  saveNoteButtonClick(event: any) {
+  saveNoteButtonClick(event: any): void {
     // I used to have a blocked here in case of ongoing saving operation,
     // but I remove it: gives more problems than gets
 
@@ -62,11 +62,11 @@ export class AppComponent {
       .then(() => this.startTimeInterval());
   }
 
-  deleteNoteButtonClick(event: any) {
+  deleteNoteButtonClick(event: any): void {
     this.deleteNote(this.selectedNote);
   }
 
-  private deleteNote(note: Note) {
+  private deleteNote(note: Note): void {
     if (!this.browserInteractionService.question('Do you realy wish to delete the note?')) {
       return;
     }
@@ -79,7 +79,7 @@ export class AppComponent {
     this.noteService.deleteNote(note);
   }
 
-  private setNotes(notes: Note[]) {
+  private setNotes(notes: Note[]): void {
     this.notes = notes;
     if (this.notes.length === 0) {
       this.notes.push(this.noteService.createNote());
@@ -89,7 +89,7 @@ export class AppComponent {
     this.changeDetector.setNote(this.notes[0]);
   }
 
-  private startTimeInterval() {
+  private startTimeInterval(): void {
     this.intervalService.clearInterval();
     this.intervalService.setInterval(
       AppComponent.INTERVAL_TIME,
@@ -97,17 +97,14 @@ export class AppComponent {
     );
   }
 
-  private callSaveNoteFromService(note: Note): Promise<void> {
+  private async callSaveNoteFromService(note: Note): Promise<void> {
     if (!this.changeDetector.wasChanged()) {
       return Promise.resolve();
     }
 
     this.isSavingInProgress = true;
-
-    return this.noteService.saveNote(note)
-      .then(() => {
-        this.isSavingInProgress = false;
-        this.changeDetector.setNote(this.selectedNote);
-      });
+    await this.noteService.saveNote(note);
+    this.isSavingInProgress = false;
+    this.changeDetector.setNote(this.selectedNote);
   }
 }
