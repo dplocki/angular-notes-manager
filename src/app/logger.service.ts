@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class LoggerService {
 
-  log(...params: any[]) {
+  log(...params: unknown[]) {
     console.log.apply(this, params);
   }
 

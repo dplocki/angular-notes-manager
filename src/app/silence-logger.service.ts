@@ -5,7 +5,8 @@ import { Injectable } from '@angular/core';
 })
 export class SilenceLoggerService {
 
-  log(...params: any[]) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  log(...params: unknown[]) {
     // ignored
   }
 

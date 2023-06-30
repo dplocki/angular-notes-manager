@@ -10,7 +10,7 @@ export class NoteDetailComponent {
 
   @Input() note!: Note;
 
-  onKey(event: any): void {
-    this.note.text = event.target.value;
+  onKey(event: KeyboardEvent): void {
+    this.note.text = (<HTMLInputElement>event.target).value
   }
 }
