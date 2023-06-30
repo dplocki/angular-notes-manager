@@ -45,8 +45,8 @@ export class LocalStorageService {
     return new Promise<Note>((resolve) => {
       this.loggerService.log('Delete note: ', note);
 
-      let allNotes = this.loadRawDataFromLocalStorage();
-      let noteWithoutOne = allNotes.filter((x: any) => x.id != note.id);
+      const allNotes = this.loadRawDataFromLocalStorage();
+      const noteWithoutOne = allNotes.filter((x: any) => x.id != note.id);
 
       this.saveRawDataIntoLocalStorage(noteWithoutOne);
 
@@ -74,7 +74,7 @@ export class LocalStorageService {
   }
 
   private saveRawDataIntoLocalStorage(rawNotes: any[]) {
-    let rawData = JSON.stringify(rawNotes);
+    const rawData = JSON.stringify(rawNotes);
 
     localStorage.setItem(LocalStorageService.LOCAL_STORAGE_KEY, rawData);
   }

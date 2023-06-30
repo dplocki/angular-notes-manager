@@ -17,7 +17,7 @@ export class AppComponent {
   selectedNote!: Note;
 
   notes!: Note[];
-  isSavingInProgress: boolean = false;
+  isSavingInProgress = false;
   changeDetector: ChangeDetector = new ChangeDetector();
 
   constructor(
