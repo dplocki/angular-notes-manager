@@ -3,6 +3,7 @@ import { Note } from "./note";
 import { NoteService } from './note.service';
 import { IntervalService } from './interval.service';
 import { BrowserInteractionService } from './browser-interaction.service';
+import { ChangeDetector } from './ChangeDetector';
 
 @Component({
   selector: 'app-root',
@@ -108,23 +109,5 @@ export class AppComponent {
         this.isSavingInProgress = false;
         this.changeDetector.setNote(this.selectedNote);
       });
-  }
-}
-
-class ChangeDetector {
-  private originalText!: string;
-  private note!: Note;
-
-  public setNote(note: Note) {
-    this.originalText = note.text;
-    this.note = note;
-  }
-
-  public wasChanged(): boolean {
-    if (this.note.text === '') { // in case of new object
-      return true;
-    }
-
-    return this.note.text !== this.originalText;
   }
 }

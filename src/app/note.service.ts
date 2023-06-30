@@ -14,17 +14,14 @@ export class NoteService {
   ) {
   }
 
-  getNotes(): Promise<Note[]> {
-    return this.storageService.loadNotes()
-      .then(notes => {
-        notes.forEach(n => this.idGeneratorService.checkNumber(n.id));
-
-        return notes;
-      });
+  async getNotes(): Promise<Note[]> {
+    const notes = await this.storageService.loadNotes();
+    notes.forEach(n => this.idGeneratorService.checkNumber(n.id));
+    return notes;
   }
 
-  saveNotes(notes: Note[]): Promise<Note[]> {
-    return this.storageService.saveNotes(notes);
+  async saveNotes(notes: Note[]): Promise<Note[]> {
+    return await this.storageService.saveNotes(notes);
   }
 
   saveNote(note: Note): Promise<Note> {

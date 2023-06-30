@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class IdGeneratorService {
   nextId: number = 1;
 
-  public getIdForNew() {
+  getIdForNew() {
     const id = this.nextId;
 
     this.nextId++;
@@ -14,7 +14,7 @@ export class IdGeneratorService {
     return id;
   }
 
-  public checkNumber(id: number) {
+  checkNumber(id: number) {
     if (this.nextId < id) {
       this.nextId = id++;
     }

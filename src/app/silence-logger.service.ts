@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class SilenceLoggerService {
 
-  public log(...params: any[]) {
+  log(...params: any[]) {
     // ignored
   }
 

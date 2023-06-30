@@ -13,8 +13,8 @@ export class LocalStorageService {
   ) {
   }
 
-  public saveNotes(notes: Note[]): Promise<Note[]> {
-    return new Promise<Note[]>((resolve, reject) => {
+  saveNotes(notes: Note[]): Promise<Note[]> {
+    return new Promise<Note[]>((resolve): void => {
       this.loggerService.log('Save notes: ', notes);
 
       this.saveRawDataIntoLocalStorage(notes);
@@ -22,8 +22,8 @@ export class LocalStorageService {
     });
   }
 
-  public saveNote(note: Note): Promise<Note> {
-    return new Promise<Note>((resolve, reject) => {
+  saveNote(note: Note): Promise<Note> {
+    return new Promise<Note>((resolve) => {
       this.loggerService.log('Save note: ', note);
 
       const rawData = this.loadRawDataFromLocalStorage();
@@ -41,8 +41,8 @@ export class LocalStorageService {
     });
   }
 
-  public deleteNote(note: Note): Promise<Note> {
-    return new Promise<Note>((resolve, reject) => {
+  deleteNote(note: Note): Promise<Note> {
+    return new Promise<Note>((resolve) => {
       this.loggerService.log('Delete note: ', note);
 
       let allNotes = this.loadRawDataFromLocalStorage();
@@ -54,8 +54,8 @@ export class LocalStorageService {
     });
   }
 
-  public loadNotes(): Promise<Note[]> {
-    return new Promise<Note[]>((resolve, reject) => {
+  loadNotes(): Promise<Note[]> {
+    return new Promise<Note[]>((resolve) => {
       this.loggerService.log('Load notes');
 
       resolve(this.loadRawDataFromLocalStorage()
