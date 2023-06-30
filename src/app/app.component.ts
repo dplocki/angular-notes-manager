@@ -47,14 +47,14 @@ export class AppComponent implements OnInit {
     this.deleteNote(note);
   }
 
-  addNoteButtonClick(event: any): void {
+  addNoteButtonClick(): void {
     const newNote = this.noteService.createNote();
 
     this.notes.push(newNote);
     this.selectedNoteChange(newNote);
   }
 
-  saveNoteButtonClick(event: any): void {
+  saveNoteButtonClick(): void {
     // I used to have a blocked here in case of ongoing saving operation,
     // but I remove it: gives more problems than gets
 
@@ -62,8 +62,8 @@ export class AppComponent implements OnInit {
       .then(() => this.startTimeInterval());
   }
 
-  deleteNoteButtonClick(event: any): void {
-    this.deleteNote(this.selectedNote);
+  deleteNoteButtonClick(note: Note): void {
+    this.deleteNote(note);
   }
 
   private deleteNote(note: Note): void {

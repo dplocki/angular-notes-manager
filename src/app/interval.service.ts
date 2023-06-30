@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class IntervalService {
-  interval: any;
+  interval!: ReturnType<typeof setInterval>;
 
   setInterval(time: number, callback: () => void) {
     this.interval = setInterval(callback, time);

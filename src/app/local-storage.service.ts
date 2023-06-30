@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Note } from './note';
 import { LoggerService } from './logger.service';
+import { StoragedNote } from './StoragedNote';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class LocalStorageService {
       this.loggerService.log('Save note: ', note);
 
       const rawData = this.loadRawDataFromLocalStorage();
-      const rawNote = rawData.find((x: any) => x.id == note.id);
+      const rawNote = rawData.find((x: StoragedNote) => x.id == note.id);
 
       if (rawNote) {
         rawNote.text = note.text;
@@ -46,7 +47,7 @@ export class LocalStorageService {
       this.loggerService.log('Delete note: ', note);
 
       const allNotes = this.loadRawDataFromLocalStorage();
-      const noteWithoutOne = allNotes.filter((x: any) => x.id != note.id);
+      const noteWithoutOne = allNotes.filter((x: StoragedNote) => x.id != note.id);
 
       this.saveRawDataIntoLocalStorage(noteWithoutOne);
 
@@ -59,12 +60,12 @@ export class LocalStorageService {
       this.loggerService.log('Load notes');
 
       resolve(this.loadRawDataFromLocalStorage()
-        .map((r: any) => new Note(r.text, r.id))
+        .map((r: StoragedNote) => new Note(r.text, r.id))
       );
     });
   }
 
-  private loadRawDataFromLocalStorage(): any[] {
+  private loadRawDataFromLocalStorage(): StoragedNote[] {
     const rawData = localStorage.getItem(LocalStorageService.LOCAL_STORAGE_KEY)
     if (!rawData) {
       return [];
@@ -73,7 +74,7 @@ export class LocalStorageService {
     return JSON.parse(rawData);
   }
 
-  private saveRawDataIntoLocalStorage(rawNotes: any[]) {
+  private saveRawDataIntoLocalStorage(rawNotes: StoragedNote[]) {
     const rawData = JSON.stringify(rawNotes);
 
     localStorage.setItem(LocalStorageService.LOCAL_STORAGE_KEY, rawData);
