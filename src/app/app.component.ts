@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Note } from "./note";
 import { NoteService } from './note.service';
 import { IntervalService } from './interval.service';
@@ -10,7 +10,7 @@ import { ChangeDetector } from './ChangeDetector';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.less']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   private static readonly INTERVAL_TIME = 5000;
 
   @Input()
