@@ -27,3 +27,9 @@ ng serve --host 0.0.0.0
 ```
 
 The need ports are: `4200` and `49153` for refresh.
+
+#### Docker and karma tests
+
+Turns out it is not so easy. There are many tutorial how to run Karma inside the docker container, but they seems to be not working now (most of them was made at least few years ago). Probably the Chrome changed. Definitely the link to Google Chrome changed.
+
+Luckily I found the solution: [How to run Karma tests from docker container? - the third replay](https://stackoverflow.com/a/72306681). Based on that I have adjusted my [Dockerfile](./Dockerfile).
