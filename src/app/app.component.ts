@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { Note } from "./note";
 import { NoteService } from './note.service';
 import { IntervalService } from './interval.service';
@@ -13,8 +13,7 @@ import { ChangeDetector } from './ChangeDetector';
 export class AppComponent implements OnInit {
   private static readonly INTERVAL_TIME = 5000;
 
-  @Input()
-  selectedNote!: Note;
+  selectedNote = signal(this.noteService.createNote());
 
   notes!: Note[];
   isSavingInProgress = false;
@@ -38,8 +37,8 @@ export class AppComponent implements OnInit {
   }
 
   selectedNoteChange(note: Note): void {
-    this.callSaveNoteFromService(this.selectedNote);
-    this.selectedNote = note;
+    this.callSaveNoteFromService(this.selectedNote());
+    this.selectedNote.set(note);
     this.changeDetector.setNote(note);
   }
 
@@ -58,7 +57,7 @@ export class AppComponent implements OnInit {
     // I used to have a blocked here in case of ongoing saving operation,
     // but I remove it: gives more problems than gets
 
-    this.callSaveNoteFromService(this.selectedNote)
+    this.callSaveNoteFromService(this.selectedNote())
       .then(() => this.startTimeInterval());
   }
 
@@ -72,7 +71,7 @@ export class AppComponent implements OnInit {
     }
 
     this.notes = this.notes.filter((n: Note) => n.id != note.id);
-    if (note == this.selectedNote) {
+    if (note == this.selectedNote()) {
       this.setNotes(this.notes);
     }
 
@@ -85,7 +84,7 @@ export class AppComponent implements OnInit {
       this.notes.push(this.noteService.createNote());
     }
 
-    this.selectedNote = this.notes[0];
+    this.selectedNote.set(this.notes[0]);
     this.changeDetector.setNote(this.notes[0]);
   }
 
@@ -93,7 +92,7 @@ export class AppComponent implements OnInit {
     this.intervalService.clearInterval();
     this.intervalService.setInterval(
       AppComponent.INTERVAL_TIME,
-      () => this.callSaveNoteFromService(this.selectedNote)
+      () => this.callSaveNoteFromService(this.selectedNote())
     );
   }
 
@@ -105,6 +104,6 @@ export class AppComponent implements OnInit {
     this.isSavingInProgress = true;
     await this.noteService.saveNote(note);
     this.isSavingInProgress = false;
-    this.changeDetector.setNote(this.selectedNote);
+    this.changeDetector.setNote(this.selectedNote());
   }
 }

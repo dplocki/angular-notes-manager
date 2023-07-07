@@ -2,15 +2,15 @@
     <header>
         <span>[<a tabindex="0" (click)="addNoteButtonClick()" (keypress)="addNoteButtonClick()">New</a>]</span>
         <span>[<a tabindex="0" [class.workInProgress]="isSavingInProgress" (keypress)="saveNoteButtonClick()" (keydown)="saveNoteButtonClick()">{{ isSavingInProgress ? 'Saving...' : 'Save' }}</a>]</span>
-        <span>[<a tabindex="0" (click)="deleteNoteButtonClick(selectedNote)" (keypress)="deleteNoteButtonClick(selectedNote)">Delete</a>]</span>
+        <span>[<a tabindex="0" (click)="deleteNoteButtonClick(selectedNote())" (keypress)="deleteNoteButtonClick(selectedNote())">Delete</a>]</span>
     </header>
     <article>
-        <app-note-detail [note]="selectedNote"></app-note-detail>
+        <app-note-detail [note]="selectedNote()"></app-note-detail>
     </article>
     <aside>
         <app-note-list
             [notes]="notes"
-            [selectedNote]="selectedNote"
+            [selectedNote]="selectedNote()"
             (noteSelectionChange)="selectedNoteChange($event)"
             (noteDeleted)="deleteNoteFromList($event)"
         >
