@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, WritableSignal } from '@angular/core';
 import { Note } from '../note';
 
 @Component({
@@ -8,9 +8,10 @@ import { Note } from '../note';
 })
 export class NoteDetailComponent {
 
-  @Input() note!: Note;
+  @Input()
+  note!: WritableSignal<Note>;
 
   onKey(event: KeyboardEvent): void {
-    this.note.text = (<HTMLInputElement>event.target).value
+    this.note.mutate((note: Note) => note.text = (<HTMLInputElement>event.target).value)
   }
 }

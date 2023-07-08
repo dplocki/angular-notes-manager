@@ -5,7 +5,7 @@
         <span>[<a tabindex="0" (click)="deleteNoteButtonClick(selectedNote())" (keypress)="deleteNoteButtonClick(selectedNote())">Delete</a>]</span>
     </header>
     <article>
-        <app-note-detail [note]="selectedNote()"></app-note-detail>
+        <app-note-detail [note]="selectedNote"></app-note-detail>
     </article>
     <aside>
         <app-note-list
