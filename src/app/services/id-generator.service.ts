@@ -16,7 +16,7 @@ export class IdGeneratorService {
 
   checkNumber(id: number) {
     if (this.nextId < id) {
-      this.nextId = id++;
+      this.nextId = ++id;
     }
   }
 }
