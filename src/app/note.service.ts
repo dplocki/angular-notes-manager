@@ -24,15 +24,15 @@ export class NoteService {
     return await this.storageService.saveNotes(notes);
   }
 
-  saveNote(note: Note): Promise<Note> {
-    return this.storageService.saveNote(note);
+  async saveNote(note: Note): Promise<Note> {
+    return await this.storageService.saveNote(note);
   }
 
   createNote(): Note {
     return new Note('', this.idGeneratorService.getIdForNew());
   }
 
-  deleteNote(note: Note): Promise<Note> {
-    return this.storageService.deleteNote(note);
+  async deleteNote(note: Note): Promise<Note> {
+    return await this.storageService.deleteNote(note);
   }
 }

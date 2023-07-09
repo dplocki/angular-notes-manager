@@ -14,7 +14,15 @@ describe('NoteService', () => {
     TestBed.configureTestingModule({
       providers: [
         NoteService,
-        { provide: LocalStorageService, useValue: jasmine.createSpyObj('LocalStorageService', ['loadNotes', 'saveNotes']) },
+        {
+          provide: LocalStorageService,
+          useValue: jasmine.createSpyObj('LocalStorageService', [
+            'loadNotes',
+            'saveNote',
+            'saveNotes',
+            'deleteNote'
+          ])
+        },
         { provide: IdGeneratorService, useValue: jasmine.createSpyObj('IdGeneratorService', ['checkNumber']) }
       ]
     });
@@ -39,14 +47,30 @@ describe('NoteService', () => {
     expect(idGeneratorServiceSpy.checkNumber).toHaveBeenCalledTimes(loadNotes.length);
   });
 
+  it('saveNote should be delegate to storageService', async () => {
+    const exampleNote = new Note('a', 1);
+
+    await noteService.saveNote(exampleNote);
+
+    expect(storageServiceSpy.saveNote).toHaveBeenCalled();
+  });
+
   it('saveNotes should be delegate to storageService', async () => {
-    const loadNotes = [
+    const exampleNotes = [
       new Note('a', 1),
       new Note('b', 2),
     ];
 
-    await noteService.saveNotes(loadNotes);
+    await noteService.saveNotes(exampleNotes);
 
     expect(storageServiceSpy.saveNotes).toHaveBeenCalled();
+  });
+
+  it('deleteNote should be delegate to storageService', async () => {
+    const exampleNote = new Note('a', 1);
+
+    await noteService.deleteNote(exampleNote);
+
+    expect(storageServiceSpy.deleteNote).toHaveBeenCalled();
   });
 });
