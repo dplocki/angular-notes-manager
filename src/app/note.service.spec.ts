@@ -23,7 +23,13 @@ describe('NoteService', () => {
             'deleteNote'
           ])
         },
-        { provide: IdGeneratorService, useValue: jasmine.createSpyObj('IdGeneratorService', ['checkNumber']) }
+        {
+          provide: IdGeneratorService,
+          useValue: jasmine.createSpyObj('IdGeneratorService', [
+            'checkNumber',
+            'getIdForNew'
+          ])
+        }
       ]
     });
 
@@ -64,6 +70,13 @@ describe('NoteService', () => {
     await noteService.saveNotes(exampleNotes);
 
     expect(storageServiceSpy.saveNotes).toHaveBeenCalled();
+  });
+
+  it('createNote should be delegate to storageService', () => {
+    const note = noteService.createNote();
+
+    expect(note.text).toBe('');
+    expect(idGeneratorServiceSpy.getIdForNew).toHaveBeenCalled();
   });
 
   it('deleteNote should be delegate to storageService', async () => {
