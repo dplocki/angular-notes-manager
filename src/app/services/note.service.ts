@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Note } from './note';
-import { IdGeneratorService } from './id-generator.service';
+import { Note } from '../note';
 import { LocalStorageService } from './local-storage.service';
+import { IdGeneratorService } from './id-generator.service';
 
 @Injectable({
   providedIn: 'root'

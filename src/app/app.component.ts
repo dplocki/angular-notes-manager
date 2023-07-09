@@ -1,9 +1,9 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { Note } from "./note";
-import { NoteService } from './note.service';
-import { IntervalService } from './interval.service';
+import { NoteService } from './services/note.service';
 import { BrowserInteractionService } from './browser-interaction.service';
 import { ChangeDetector } from './ChangeDetector';
+import { IntervalService } from './services/interval.service';
 
 @Component({
   selector: 'app-root',

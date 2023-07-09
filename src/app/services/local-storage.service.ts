@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Note } from './note';
+import { Note } from '../note';
 import { LoggerService } from './logger.service';
 import { StoragedNote } from './StoragedNote';
 

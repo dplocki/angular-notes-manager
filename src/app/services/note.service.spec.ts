@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { NoteService } from './note.service';
 import { LocalStorageService } from './local-storage.service';
 import { IdGeneratorService } from './id-generator.service';
-import { Note } from './note';
+import { Note } from '../note';
 
 describe('NoteService', () => {
   const exampleNotes = [
