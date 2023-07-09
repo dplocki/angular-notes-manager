@@ -14,7 +14,7 @@ describe('NoteService', () => {
     TestBed.configureTestingModule({
       providers: [
         NoteService,
-        { provide: LocalStorageService, useValue: jasmine.createSpyObj('LocalStorageService', ['loadNotes']) },
+        { provide: LocalStorageService, useValue: jasmine.createSpyObj('LocalStorageService', ['loadNotes', 'saveNotes']) },
         { provide: IdGeneratorService, useValue: jasmine.createSpyObj('IdGeneratorService', ['checkNumber']) }
       ]
     });
@@ -36,6 +36,17 @@ describe('NoteService', () => {
     const notes = await noteService.getNotes();
 
     expect(notes).toEqual(loadNotes);
+    expect(idGeneratorServiceSpy.checkNumber).toHaveBeenCalledTimes(loadNotes.length);
   });
 
+  it('saveNotes should be delegate to storageService', async () => {
+    const loadNotes = [
+      new Note('a', 1),
+      new Note('b', 2),
+    ];
+
+    await noteService.saveNotes(loadNotes);
+
+    expect(storageServiceSpy.saveNotes).toHaveBeenCalled();
+  });
 });
