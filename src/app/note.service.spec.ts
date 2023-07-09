@@ -6,6 +6,11 @@ import { IdGeneratorService } from './id-generator.service';
 import { Note } from './note';
 
 describe('NoteService', () => {
+  const exampleNotes = [
+    new Note('a', 1),
+    new Note('b', 2),
+  ];
+
   let noteService: NoteService;
   let storageServiceSpy: jasmine.SpyObj<LocalStorageService>;
   let idGeneratorServiceSpy: jasmine.SpyObj<IdGeneratorService>;
@@ -39,18 +44,13 @@ describe('NoteService', () => {
   });
 
   it('getNotes should return stored notes and checked their ids', async () => {
-    const loadNotes = [
-      new Note('a', 1),
-      new Note('b', 2),
-    ];
-
-    storageServiceSpy.loadNotes.and.resolveTo(loadNotes);
+    storageServiceSpy.loadNotes.and.resolveTo(exampleNotes);
     idGeneratorServiceSpy.checkNumber.and.returnValues();
 
     const notes = await noteService.getNotes();
 
-    expect(notes).toEqual(loadNotes);
-    expect(idGeneratorServiceSpy.checkNumber).toHaveBeenCalledTimes(loadNotes.length);
+    expect(notes).toEqual(exampleNotes);
+    expect(idGeneratorServiceSpy.checkNumber).toHaveBeenCalledTimes(exampleNotes.length);
   });
 
   it('saveNote should be delegate to storageService', async () => {
@@ -62,11 +62,6 @@ describe('NoteService', () => {
   });
 
   it('saveNotes should be delegate to storageService', async () => {
-    const exampleNotes = [
-      new Note('a', 1),
-      new Note('b', 2),
-    ];
-
     await noteService.saveNotes(exampleNotes);
 
     expect(storageServiceSpy.saveNotes).toHaveBeenCalled();
