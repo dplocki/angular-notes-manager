@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoteDetailComponent } from './note-detail.component';
 import { Note } from '../note';
 import { FormsModule } from '@angular/forms';
+import { signal } from '@angular/core';
 
 describe('NoteDetailComponent', () => {
   let component: NoteDetailComponent;
@@ -17,7 +18,7 @@ describe('NoteDetailComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(NoteDetailComponent);
     component = fixture.componentInstance;
-    component.note = new Note('', 0);
+    component.note = signal(new Note('', 0));
     fixture.detectChanges();
   });
 
