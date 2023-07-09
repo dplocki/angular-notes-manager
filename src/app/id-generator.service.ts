@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class IdGeneratorService {
-  nextId = 1;
+  private nextId = 1;
 
   getIdForNew() {
     const id = this.nextId;
