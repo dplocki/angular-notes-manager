@@ -22,16 +22,9 @@ describe('LocalStorageService', () => {
 
     localStorageService = TestBed.inject(LocalStorageService);
     loggerServiceSpy = TestBed.inject(LoggerService) as jasmine.SpyObj<LoggerService>;
-  });
 
-  beforeEach(() => {
-    let fakeLocalStore: { [id: string]: string | null } = {};
-
-    localStoreSpy = {
-      getItem: spyOn(window.localStorage, 'getItem').and.callFake((key: string) => key in fakeLocalStore ? fakeLocalStore[key] : null),
-      setItem: spyOn(window.localStorage, 'setItem').and.callFake((key, value) => (fakeLocalStore[key] = value + '')),
-      clear: spyOn(window.localStorage, 'clear').and.callFake(() => (fakeLocalStore = {}))
-    } as jasmine.SpyObj<Storage>;
+    localStoreSpy = jasmine.createSpyObj('localStorage', ['getItem', 'setItem', 'removeItem', 'clear']);
+    spyOnProperty(window, 'localStorage').and.returnValue(localStoreSpy);
   });
 
   it('should be created', () => {
@@ -48,8 +41,20 @@ describe('LocalStorageService', () => {
 
     expect(results).toEqual(notes);
     expect(loggerServiceSpy.log).toHaveBeenCalled();
-    expect(localStoreSpy.setItem).toHaveBeenCalled();
+    expect(localStoreSpy.setItem).toHaveBeenCalledTimes(1);
     expect(localStoreSpy.getItem).not.toHaveBeenCalled();
+    expect(localStoreSpy.clear).not.toHaveBeenCalled();
+  });
+
+  it('saveNote is calling the logger and the save the local storage', async () => {
+    const note = new Note('abc', 1);
+
+    const results = await localStorageService.saveNote(note);
+
+    expect(results).toEqual(note);
+    expect(loggerServiceSpy.log).toHaveBeenCalled();
+    expect(localStoreSpy.setItem).toHaveBeenCalled();
+    expect(localStoreSpy.getItem).toHaveBeenCalled();
     expect(localStoreSpy.clear).not.toHaveBeenCalled();
   });
 });
