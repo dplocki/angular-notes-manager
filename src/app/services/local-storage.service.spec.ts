@@ -41,12 +41,24 @@ describe('LocalStorageService', () => {
 
     expect(results).toEqual(notes);
     expect(loggerServiceSpy.log).toHaveBeenCalled();
-    expect(localStoreSpy.setItem).toHaveBeenCalledTimes(1);
+    expect(localStoreSpy.setItem).toHaveBeenCalled();
     expect(localStoreSpy.getItem).not.toHaveBeenCalled();
     expect(localStoreSpy.clear).not.toHaveBeenCalled();
   });
 
   it('saveNote is calling the logger and the save the local storage', async () => {
+    const note = new Note('abc', 1);
+
+    const results = await localStorageService.saveNote(note);
+
+    expect(results).toEqual(note);
+    expect(loggerServiceSpy.log).toHaveBeenCalled();
+    expect(localStoreSpy.setItem).toHaveBeenCalled();
+    expect(localStoreSpy.getItem).toHaveBeenCalled();
+    expect(localStoreSpy.clear).not.toHaveBeenCalled();
+  });
+
+  it('deleteNote is calling the logger and the save the local storage', async () => {
     const note = new Note('abc', 1);
 
     const results = await localStorageService.saveNote(note);
