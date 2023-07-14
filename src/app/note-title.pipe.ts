@@ -7,7 +7,7 @@ import { Note } from './note';
 export class NoteTitlePipe implements PipeTransform {
   private static readonly TITLE_MAX_LENGTH = 20;
 
-  transform(value: Note): unknown {
+  transform(value: Note): string {
     if (!value || !value.text) {
         return '';
     }
