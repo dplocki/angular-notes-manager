@@ -28,8 +28,18 @@ ng serve --host 0.0.0.0
 
 The need ports are: `4200` and `49153` for refresh.
 
-#### Docker and karma tests
+## 📝 Notes
+
+### Docker and karma tests
 
 Turns out it is not so easy. There are many tutorial how to run Karma inside the docker container, but they seems to be not working now (most of them was made at least few years ago). Probably the Chrome changed. Definitely the link to Google Chrome changed.
 
 Luckily I found the solution: [How to run Karma tests from docker container? - the third replay](https://stackoverflow.com/a/72306681). Based on that I have adjusted my [Dockerfile](./Dockerfile).
+
+### Visual Code estensions
+
+* [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+* [Angular Language Service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template)
+* [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) - for support the eslint detection in the Visual Code
+* [Test Explorer UI](https://marketplace.visualstudio.com/items?itemName=hbenl.vscode-test-explorer) - for automatic unit test support (works in Dev Containers, but little too slow and can crash)
+* [Karma Test Explorer (for Angular, Jasmine, and Mocha)](https://marketplace.visualstudio.com/items?itemName=lucono.karma-test-explorer)
