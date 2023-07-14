@@ -1,7 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { Note } from "./note";
 import { NoteService } from './services/note.service';
-import { ChangeDetector } from './ChangeDetector';
+import { ChangeDetector } from './change-detector';
 import { IntervalService } from './services/interval.service';
 import { BrowserInteractionService } from './services/browser-interaction.service';
 
