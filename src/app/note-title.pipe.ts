@@ -16,12 +16,8 @@ export class NoteTitlePipe implements PipeTransform {
         .replace('\n', '')
         .trim();
 
-    if (title == '') {
-        return '';
-    }
-
     return title.length > NoteTitlePipe.TITLE_MAX_LENGTH
-        ? title.substr(0, NoteTitlePipe.TITLE_MAX_LENGTH) + '...'
+        ? title.substring(0, NoteTitlePipe.TITLE_MAX_LENGTH) + '...'
         : title;
   }
 }
