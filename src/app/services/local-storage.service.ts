@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Note } from '../note';
 import { LoggerService } from './logger.service';
-import { StoragedNote } from './StoragedNote';
+import { StoragedNote } from './storaged-note';
 
 @Injectable({
   providedIn: 'root'
