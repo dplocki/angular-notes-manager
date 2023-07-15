@@ -4,7 +4,7 @@ export class ChangeDetector {
   private originalText!: string;
   private note!: Note;
 
-  setNote(note: Note) {
+  setNote(note: Note): void {
     this.originalText = note.text;
     this.note = note;
   }
