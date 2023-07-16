@@ -61,7 +61,7 @@ describe('LocalStorageService', () => {
   it('deleteNote is calling the logger and the save the local storage', async () => {
     const note = new Note('abc', 1);
 
-    const results = await localStorageService.saveNote(note);
+    const results = await localStorageService.deleteNote(note);
 
     expect(results).toEqual(note);
     expect(loggerServiceSpy.log).toHaveBeenCalled();
