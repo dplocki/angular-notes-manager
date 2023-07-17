@@ -3,15 +3,18 @@ import { makeNote, makeString } from "./shared/testing/generators";
 
 describe('ChangeDetector', () => {
 
+  const makeChangeDetector = () => new ChangeDetector();
+
   it('create an instance', () => {
-    const changeDetector = new ChangeDetector();
+    const changeDetector = makeChangeDetector();
 
     expect(changeDetector).toBeTruthy();
   });
 
   describe('wasChanged', () => {
+
     it('should return true if Note text is empty', () => {
-      const changeDetector = new ChangeDetector();
+      const changeDetector = makeChangeDetector();
       const note = makeNote().setText('').make();
 
       changeDetector.setNote(note);
@@ -21,8 +24,8 @@ describe('ChangeDetector', () => {
     });
 
     it('should return false if Note text did not changed', () => {
+      const changeDetector = makeChangeDetector();
       const textOfNote = makeString();
-      const changeDetector = new ChangeDetector();
       const note = makeNote().setText(textOfNote).make();
 
       changeDetector.setNote(note);
@@ -33,7 +36,7 @@ describe('ChangeDetector', () => {
     });
 
     it('should return true if Note text changed', () => {
-      const changeDetector = new ChangeDetector();
+      const changeDetector = makeChangeDetector();
       const note = makeNote().make();
 
       changeDetector.setNote(note);
@@ -42,6 +45,7 @@ describe('ChangeDetector', () => {
 
       expect(result).toBeTrue();
     });
+
   });
 
 });
