@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { LocalStorageService } from './local-storage.service';
 import { LoggerService } from './logger.service';
 import { Note } from '../note';
-import { makeNote, multiple } from '../shared/testing/generators';
+import { makeNote, makeNumber, multiple } from '../shared/testing/generators';
 
 describe('LocalStorageService', () => {
   let localStorageService: LocalStorageService;
@@ -52,6 +52,22 @@ describe('LocalStorageService', () => {
     expect(localStoreSpy.setItem).toHaveBeenCalled();
     expect(localStoreSpy.getItem).toHaveBeenCalled();
     expect(localStoreSpy.clear).not.toHaveBeenCalled();
+  });
+
+  it('saveNote should update the note with stored in local storage', async () => {
+    const id = makeNumber();
+    const note = makeNote().setId(id).make();
+    const storedNotes: Note[] = [...multiple(makeNote(), 4), note];
+    let storage!:string;
+    localStoreSpy.getItem.and.returnValues(JSON.stringify(storedNotes));
+    localStoreSpy.setItem.and.callFake((_: string, value: string): void => { storage = value })
+
+    const updatedNote = makeNote().setId(id).make();
+    await localStorageService.saveNote(updatedNote);
+
+    expect(localStoreSpy.setItem).toHaveBeenCalled();
+    const savedObjects = JSON.parse(storage) as Note[];
+    expect(savedObjects.length).toBe(storedNotes.length);
   });
 
   it('deleteNote is calling the logger and the save the local storage', async () => {

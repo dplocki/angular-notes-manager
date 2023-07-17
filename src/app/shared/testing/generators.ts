@@ -8,7 +8,7 @@ export function makeString(length = 10): string {
     .join('');
 }
 
-export function makeNumber(max: number, min = 0): number {
+export function makeNumber(max = 1024, min = 0): number {
   return min + Math.floor(Math.random() * max);
 }
 
@@ -22,7 +22,7 @@ class NoteMaker implements Maker<Note> {
 
   constructor() {
     this.textGenerator = () => makeString();
-    this.idGenerator = () => makeNumber(1024);
+    this.idGenerator = () => makeNumber();
   }
 
   setTextGenerator(generatorFunction: () => string): NoteMaker {
@@ -37,6 +37,11 @@ class NoteMaker implements Maker<Note> {
 
   setIdGenerator(generatorFunction: () => number): NoteMaker {
     this.idGenerator = generatorFunction;
+    return this;
+  }
+
+  setId(id: number): NoteMaker {
+    this.idGenerator = () => id;
     return this;
   }
 
