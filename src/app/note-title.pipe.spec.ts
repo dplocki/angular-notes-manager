@@ -1,6 +1,5 @@
-import { Note } from './note';
 import { NoteTitlePipe } from './note-title.pipe';
-import { makeString } from './shared/testing/generators';
+import { makeNote, makeString } from './shared/testing/generators';
 
 describe('NoteTitlePipe', () => {
 
@@ -13,7 +12,8 @@ describe('NoteTitlePipe', () => {
 
     function callTransform(inMessage: string, expectedMessage: string) {
       const pipe = new NoteTitlePipe();
-      const result = pipe.transform(new Note(inMessage, 12));
+      const note = makeNote().setTextGenerator(() => inMessage).make();
+      const result = pipe.transform(note);
 
       expect(result).toBe(expectedMessage);
     }
