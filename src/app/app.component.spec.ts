@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { NoteTitlePipe } from './note-title.pipe';
 
 describe('AppComponent', () => {
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AppComponent, NoteDetailComponent, NoteListComponent, NoteTitlePipe],
@@ -18,4 +19,5 @@ describe('AppComponent', () => {
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
+
 });
