@@ -2,7 +2,7 @@ import { Note } from "src/app/note";
 
 const inOptions = 'abcdefghijklmnopqrstuvwxyz0123456789';
 
-export function makeString(length: number): string {
+export function makeString(length = 10): string {
   return [...Array(length).keys()]
     .map(() => inOptions.charAt(Math.floor(Math.random() * inOptions.length)))
     .join('');
@@ -25,12 +25,14 @@ class NoteMaker implements Maker<Note> {
     this.idGenerator = () => makeNumber(1024);
   }
 
-  setTextGenerator(generatorFunction: () => string): void {
+  setTextGenerator(generatorFunction: () => string): NoteMaker {
     this.textGenerator = generatorFunction;
+    return this;
   }
 
-  setIdGenerator(generatorFunction: () => number): void {
+  setIdGenerator(generatorFunction: () => number): NoteMaker {
     this.idGenerator = generatorFunction;
+    return this;
   }
 
   make(): Note {
