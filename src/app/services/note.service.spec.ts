@@ -1,15 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-
 import { NoteService } from './note.service';
 import { LocalStorageService } from './local-storage.service';
 import { IdGeneratorService } from './id-generator.service';
-import { Note } from '../note';
+import { makeNote, multiple } from '../shared/testing/generators';
 
 describe('NoteService', () => {
-  const exampleNotes = [
-    new Note('a', 1),
-    new Note('b', 2),
-  ];
+  const exampleNotes = multiple(makeNote(), 5);
 
   let noteService: NoteService;
   let storageServiceSpy: jasmine.SpyObj<LocalStorageService>;
@@ -54,7 +50,7 @@ describe('NoteService', () => {
   });
 
   it('saveNote should be delegate to storageService', async () => {
-    const exampleNote = new Note('a', 1);
+    const exampleNote = makeNote().make();
 
     await noteService.saveNote(exampleNote);
 
@@ -75,7 +71,7 @@ describe('NoteService', () => {
   });
 
   it('deleteNote should be delegate to storageService', async () => {
-    const exampleNote = new Note('a', 1);
+    const exampleNote = makeNote().make();
 
     await noteService.deleteNote(exampleNote);
 

@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { LocalStorageService } from './local-storage.service';
 import { LoggerService } from './logger.service';
 import { Note } from '../note';
+import { makeNote, multiple } from '../shared/testing/generators';
 
 describe('LocalStorageService', () => {
   let localStorageService: LocalStorageService;
@@ -32,11 +33,7 @@ describe('LocalStorageService', () => {
   });
 
   it('saveNotes is calling the logger and the save the local storage', async () => {
-    const notes: Note[] = [
-      new Note('abc', 1),
-      new Note('bcd', 2)
-    ];
-
+    const notes: Note[] = multiple(makeNote(), 4);
     const results = await localStorageService.saveNotes(notes);
 
     expect(results).toEqual(notes);
@@ -47,8 +44,7 @@ describe('LocalStorageService', () => {
   });
 
   it('saveNote is calling the logger and the save the local storage', async () => {
-    const note = new Note('abc', 1);
-
+    const note = makeNote().make();
     const results = await localStorageService.saveNote(note);
 
     expect(results).toEqual(note);
@@ -59,8 +55,7 @@ describe('LocalStorageService', () => {
   });
 
   it('deleteNote is calling the logger and the save the local storage', async () => {
-    const note = new Note('abc', 1);
-
+    const note = makeNote().make();
     const results = await localStorageService.deleteNote(note);
 
     expect(results).toEqual(note);

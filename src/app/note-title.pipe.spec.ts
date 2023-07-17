@@ -3,6 +3,7 @@ import { NoteTitlePipe } from './note-title.pipe';
 import { makeString } from './shared/testing/generators';
 
 describe('NoteTitlePipe', () => {
+
   it('create an instance', () => {
     const pipe = new NoteTitlePipe();
     expect(pipe).toBeTruthy();
@@ -18,6 +19,7 @@ describe('NoteTitlePipe', () => {
     }
 
     it('for not undefined should return empty string', () => callTransform(undefined as unknown as string, ''));
+
     it('for white characters should return empty string', () => {
       callTransform('                \n            ', '')
     });
