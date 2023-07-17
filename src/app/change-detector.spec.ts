@@ -12,7 +12,7 @@ describe('ChangeDetector', () => {
   describe('wasChanged', () => {
     it('should return true if Note text is empty', () => {
       const changeDetector = new ChangeDetector();
-      const note = makeNote().setTextGenerator(() => '').make();
+      const note = makeNote().setText('').make();
 
       changeDetector.setNote(note);
       const result = changeDetector.wasChanged();
@@ -23,7 +23,7 @@ describe('ChangeDetector', () => {
     it('should return false if Note text did not changed', () => {
       const textOfNote = makeString();
       const changeDetector = new ChangeDetector();
-      const note = makeNote().setTextGenerator(() => textOfNote).make();
+      const note = makeNote().setText(textOfNote).make();
 
       changeDetector.setNote(note);
       note.text = textOfNote;

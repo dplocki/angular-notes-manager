@@ -17,8 +17,8 @@ interface Maker<T> {
 }
 
 class NoteMaker implements Maker<Note> {
-  textGenerator: () => string;
-  idGenerator: () => number;
+  private textGenerator: () => string;
+  private idGenerator: () => number;
 
   constructor() {
     this.textGenerator = () => makeString();
@@ -27,6 +27,11 @@ class NoteMaker implements Maker<Note> {
 
   setTextGenerator(generatorFunction: () => string): NoteMaker {
     this.textGenerator = generatorFunction;
+    return this;
+  }
+
+  setText(text: string): NoteMaker {
+    this.textGenerator = () => text;
     return this;
   }
 

@@ -12,7 +12,7 @@ describe('NoteTitlePipe', () => {
 
     function callTransform(inMessage: string, expectedMessage: string) {
       const pipe = new NoteTitlePipe();
-      const note = makeNote().setTextGenerator(() => inMessage).make();
+      const note = makeNote().setText(inMessage).make();
       const result = pipe.transform(note);
 
       expect(result).toBe(expectedMessage);
