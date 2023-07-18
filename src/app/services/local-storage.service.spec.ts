@@ -101,4 +101,20 @@ describe('LocalStorageService', () => {
 
   });
 
+  describe('loadNotes', () => {
+
+    it('should call the logger and load stored Notes', async () => {
+      const storedNotes: Note[] = multiple(makeNote(), 3);
+      localStoreSpy.getItem.and.returnValues(JSON.stringify(storedNotes));
+
+      const loadNotes = await localStorageService.loadNotes();
+
+      expect(localStoreSpy.getItem).toHaveBeenCalled();
+      expect(localStoreSpy.setItem).not.toHaveBeenCalled();
+      expect(localStoreSpy.clear).not.toHaveBeenCalled();
+      expect(loadNotes).toEqual(storedNotes);
+    });
+
+  });
+
 });
