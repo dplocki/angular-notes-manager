@@ -32,60 +32,73 @@ describe('LocalStorageService', () => {
     expect(localStorageService).toBeTruthy();
   });
 
-  it('saveNotes is calling the logger and the save the local storage', async () => {
-    const notes: Note[] = multiple(makeNote(), 4);
-    const results = await localStorageService.saveNotes(notes);
+  describe('saveNotes', () => {
 
-    expect(results).toEqual(notes);
-    expect(loggerServiceSpy.log).toHaveBeenCalled();
-    expect(localStoreSpy.setItem).toHaveBeenCalled();
-    expect(localStoreSpy.getItem).not.toHaveBeenCalled();
-    expect(localStoreSpy.clear).not.toHaveBeenCalled();
+    it('should call the logger and the save the local storage', async () => {
+      const notes: Note[] = multiple(makeNote(), 4);
+      const results = await localStorageService.saveNotes(notes);
+
+      expect(results).toEqual(notes);
+      expect(loggerServiceSpy.log).toHaveBeenCalled();
+      expect(localStoreSpy.setItem).toHaveBeenCalled();
+      expect(localStoreSpy.getItem).not.toHaveBeenCalled();
+      expect(localStoreSpy.clear).not.toHaveBeenCalled();
+    });
+
   });
 
-  it('saveNote is calling the logger and the save the local storage', async () => {
-    const note = makeNote().make();
-    const results = await localStorageService.saveNote(note);
+  describe('saveNote', () => {
 
-    expect(results).toEqual(note);
-    expect(loggerServiceSpy.log).toHaveBeenCalled();
-    expect(localStoreSpy.setItem).toHaveBeenCalled();
-    expect(localStoreSpy.getItem).toHaveBeenCalled();
-    expect(localStoreSpy.clear).not.toHaveBeenCalled();
+    it('should call the logger and the save the local storage', async () => {
+      const note = makeNote().make();
+      const results = await localStorageService.saveNote(note);
+
+      expect(results).toEqual(note);
+      expect(loggerServiceSpy.log).toHaveBeenCalled();
+      expect(localStoreSpy.setItem).toHaveBeenCalled();
+      expect(localStoreSpy.getItem).toHaveBeenCalled();
+      expect(localStoreSpy.clear).not.toHaveBeenCalled();
+    });
+
+    it('should update the note with stored in local storage', async () => {
+      const id = makeNumber();
+      const note = makeNote().setId(id).make();
+      const storedNotes: Note[] = [...multiple(makeNote(), 4), note];
+      let storage!:string;
+      localStoreSpy.getItem.and.returnValues(JSON.stringify(storedNotes));
+      localStoreSpy.setItem.and.callFake((_: string, value: string): void => { storage = value })
+
+      const updatedNote = makeNote().setId(id).make();
+      await localStorageService.saveNote(updatedNote);
+
+      expect(localStoreSpy.setItem).toHaveBeenCalled();
+      const savedObjects = JSON.parse(storage) as Note[];
+      expect(savedObjects.length).toBe(storedNotes.length);
+    });
+
   });
 
-  it('saveNote should update the note with stored in local storage', async () => {
-    const id = makeNumber();
-    const note = makeNote().setId(id).make();
-    const storedNotes: Note[] = [...multiple(makeNote(), 4), note];
-    let storage!:string;
-    localStoreSpy.getItem.and.returnValues(JSON.stringify(storedNotes));
-    localStoreSpy.setItem.and.callFake((_: string, value: string): void => { storage = value })
+  describe('deleteNote', () => {
 
-    const updatedNote = makeNote().setId(id).make();
-    await localStorageService.saveNote(updatedNote);
+    it('should call the logger and the save the local storage', async () => {
+      const id = makeNumber();
+      const note = makeNote().setId(id).make();
+      const storedNotes: Note[] = [...multiple(makeNote(), 4), note];
+      let storage!:string;
+      localStoreSpy.getItem.and.returnValues(JSON.stringify(storedNotes));
+      localStoreSpy.setItem.and.callFake((_: string, value: string): void => { storage = value })
 
-    expect(localStoreSpy.setItem).toHaveBeenCalled();
-    const savedObjects = JSON.parse(storage) as Note[];
-    expect(savedObjects.length).toBe(storedNotes.length);
+      const results = await localStorageService.deleteNote(note);
+
+      expect(results).toEqual(note);
+      expect(loggerServiceSpy.log).toHaveBeenCalled();
+      expect(localStoreSpy.setItem).toHaveBeenCalled();
+      expect(localStoreSpy.getItem).toHaveBeenCalled();
+      expect(localStoreSpy.clear).not.toHaveBeenCalled();
+      const savedObjects = JSON.parse(storage) as Note[];
+      expect(savedObjects.length).toBe(storedNotes.length - 1);
+    });
+
   });
 
-  it('deleteNote is calling the logger and the save the local storage', async () => {
-    const id = makeNumber();
-    const note = makeNote().setId(id).make();
-    const storedNotes: Note[] = [...multiple(makeNote(), 4), note];
-    let storage!:string;
-    localStoreSpy.getItem.and.returnValues(JSON.stringify(storedNotes));
-    localStoreSpy.setItem.and.callFake((_: string, value: string): void => { storage = value })
-
-    const results = await localStorageService.deleteNote(note);
-
-    expect(results).toEqual(note);
-    expect(loggerServiceSpy.log).toHaveBeenCalled();
-    expect(localStoreSpy.setItem).toHaveBeenCalled();
-    expect(localStoreSpy.getItem).toHaveBeenCalled();
-    expect(localStoreSpy.clear).not.toHaveBeenCalled();
-    const savedObjects = JSON.parse(storage) as Note[];
-    expect(savedObjects.length).toBe(storedNotes.length - 1);
-  });
 });
