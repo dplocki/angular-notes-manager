@@ -71,7 +71,13 @@ describe('LocalStorageService', () => {
   });
 
   it('deleteNote is calling the logger and the save the local storage', async () => {
-    const note = makeNote().make();
+    const id = makeNumber();
+    const note = makeNote().setId(id).make();
+    const storedNotes: Note[] = [...multiple(makeNote(), 4), note];
+    let storage!:string;
+    localStoreSpy.getItem.and.returnValues(JSON.stringify(storedNotes));
+    localStoreSpy.setItem.and.callFake((_: string, value: string): void => { storage = value })
+
     const results = await localStorageService.deleteNote(note);
 
     expect(results).toEqual(note);
@@ -79,5 +85,7 @@ describe('LocalStorageService', () => {
     expect(localStoreSpy.setItem).toHaveBeenCalled();
     expect(localStoreSpy.getItem).toHaveBeenCalled();
     expect(localStoreSpy.clear).not.toHaveBeenCalled();
+    const savedObjects = JSON.parse(storage) as Note[];
+    expect(savedObjects.length).toBe(storedNotes.length - 1);
   });
 });
