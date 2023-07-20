@@ -39,42 +39,63 @@ describe('NoteService', () => {
     idGeneratorServiceSpy = TestBed.inject(IdGeneratorService) as jasmine.SpyObj<IdGeneratorService>;
   });
 
-  it('getNotes should return stored notes and checked their ids', async () => {
-    storageServiceSpy.loadNotes.and.resolveTo(exampleNotes);
-    idGeneratorServiceSpy.checkNumber.and.returnValues();
+  describe('getNotes', () => {
 
-    const notes = await noteService.getNotes();
+    it('getNotes should return stored notes and checked their ids', async () => {
+      storageServiceSpy.loadNotes.and.resolveTo(exampleNotes);
+      idGeneratorServiceSpy.checkNumber.and.returnValues();
 
-    expect(notes).toEqual(exampleNotes);
-    expect(idGeneratorServiceSpy.checkNumber).toHaveBeenCalledTimes(exampleNotes.length);
+      const notes = await noteService.getNotes();
+
+      expect(notes).toEqual(exampleNotes);
+      expect(idGeneratorServiceSpy.checkNumber).toHaveBeenCalledTimes(exampleNotes.length);
+    });
+
   });
 
-  it('saveNote should be delegate to storageService', async () => {
-    const exampleNote = makeNote().make();
+  describe('saveNote', () => {
 
-    await noteService.saveNote(exampleNote);
+    it('should be delegate to storageService', async () => {
+      const exampleNote = makeNote().make();
 
-    expect(storageServiceSpy.saveNote).toHaveBeenCalled();
+      await noteService.saveNote(exampleNote);
+
+      expect(storageServiceSpy.saveNote).toHaveBeenCalled();
+    });
+
   });
 
-  it('saveNotes should be delegate to storageService', async () => {
-    await noteService.saveNotes(exampleNotes);
+  describe('saveNotes', () => {
 
-    expect(storageServiceSpy.saveNotes).toHaveBeenCalled();
+    it('should be delegate to storageService', async () => {
+      await noteService.saveNotes(exampleNotes);
+
+      expect(storageServiceSpy.saveNotes).toHaveBeenCalled();
+    });
+
   });
 
-  it('createNote should be delegate to storageService', () => {
-    const note = noteService.createNote();
+  describe('createNote', () => {
 
-    expect(note.text).toBe('');
-    expect(idGeneratorServiceSpy.getIdForNew).toHaveBeenCalled();
+    it('should be delegate to storageService', () => {
+      const note = noteService.createNote();
+
+      expect(note.text).toBe('');
+      expect(idGeneratorServiceSpy.getIdForNew).toHaveBeenCalled();
+    });
+
   });
 
-  it('deleteNote should be delegate to storageService', async () => {
-    const exampleNote = makeNote().make();
+  describe('deleteNote', () => {
 
-    await noteService.deleteNote(exampleNote);
+    it('should be delegate to storageService', async () => {
+      const exampleNote = makeNote().make();
 
-    expect(storageServiceSpy.deleteNote).toHaveBeenCalled();
+      await noteService.deleteNote(exampleNote);
+
+      expect(storageServiceSpy.deleteNote).toHaveBeenCalled();
+    });
+
   });
+
 });
