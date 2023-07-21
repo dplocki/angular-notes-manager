@@ -3,7 +3,7 @@ import { Note } from '../note';
 
 @Component({
   selector: 'app-delete-button',
-  templateUrl: './delete-button.component.html',
+  template: '<span>[<a (click)="deleteNote()" (keypress)="deleteNote()" tabindex="0">Delete</a>]</span>',
   styleUrls: ['./delete-button.component.less']
 })
 export class DeleteButtonComponent {
