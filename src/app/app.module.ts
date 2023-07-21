@@ -8,13 +8,19 @@ import { NoteTitlePipe } from './note-title.pipe';
 import { FormsModule } from '@angular/forms';
 import { SilenceLoggerService } from './services/silence-logger.service';
 import { LoggerService } from './services/logger.service';
+import { NoteListItemComponent } from './note-list-item/note-list-item.component';
+import { NoteTitleComponent } from './note-title/note-title.component';
+import { DeleteButtonComponent } from './delete-button/delete-button.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NoteDetailComponent,
     NoteListComponent,
-    NoteTitlePipe
+    NoteTitlePipe,
+    NoteListItemComponent,
+    NoteTitleComponent,
+    DeleteButtonComponent
   ],
   imports: [
     BrowserModule,

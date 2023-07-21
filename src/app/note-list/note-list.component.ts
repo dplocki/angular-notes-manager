@@ -10,8 +10,8 @@ export class NoteListComponent {
 
   @Input() notes!: Note[];
   @Input() selectedNote!: Note;
-  @Output() noteSelectionChange: EventEmitter<Note> = new EventEmitter<Note>();
-  @Output() noteDeleted: EventEmitter<Note> = new EventEmitter<Note>();
+  @Output() noteSelectionChange = new EventEmitter<Note>();
+  @Output() noteDeleted = new EventEmitter<Note>();
 
   selectNote(note: Note): boolean {
       this.selectedNote = note;
@@ -21,8 +21,9 @@ export class NoteListComponent {
   }
 
   deleteNote(note: Note): boolean {
-      this.noteDeleted.emit(note);
+    this.noteDeleted.emit(note);
 
-      return false;
+    return false;
   }
+
 }
