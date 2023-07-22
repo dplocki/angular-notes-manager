@@ -3,7 +3,7 @@ import { Note } from '../note';
 
 @Component({
   selector: 'app-note-detail',
-  template: '<textarea (keyup)="onKey($event)" [(ngModel)]="note().text" ></textarea>',
+  template: '<textarea (keyup)="onKey($event)" [(ngModel)]="note().text"></textarea>',
   styleUrls: ['./note-detail.component.less']
 })
 export class NoteDetailComponent {
