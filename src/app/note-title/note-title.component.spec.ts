@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NoteTitleComponent } from './note-title.component';
+import { NoteTitlePipe } from '../note-title.pipe';
 
 describe('NoteTitleComponent', () => {
   let component: NoteTitleComponent;
@@ -8,7 +9,7 @@ describe('NoteTitleComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [NoteTitleComponent]
+      declarations: [NoteTitleComponent, NoteTitlePipe]
     });
     fixture = TestBed.createComponent(NoteTitleComponent);
     component = fixture.componentInstance;

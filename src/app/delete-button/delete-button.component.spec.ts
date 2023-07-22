@@ -18,4 +18,12 @@ describe('DeleteButtonComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should call deleteNote() method when the button is clicked', () => {
+    spyOn(component, 'deleteNote');
+    const deleteButton = fixture.nativeElement.querySelector('a');
+    deleteButton.click();
+    expect(component.deleteNote).toHaveBeenCalled();
+  });
 });
+
