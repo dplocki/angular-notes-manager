@@ -22,8 +22,20 @@ describe('DeleteButtonComponent', () => {
   it('should call deleteNote() method when the button is clicked', () => {
     spyOn(component, 'deleteNote');
     const deleteButton = fixture.nativeElement.querySelector('a');
+
     deleteButton.click();
+
     expect(component.deleteNote).toHaveBeenCalled();
   });
+
+  it('should emit deletedEvent when the button is clicked', () => {
+    spyOn(component.deletedEvent, 'emit');
+    const deleteButton = fixture.nativeElement.querySelector('a');
+
+    deleteButton.click();
+
+    expect(component.deletedEvent.emit).toHaveBeenCalled();
+  });
+
 });
 
