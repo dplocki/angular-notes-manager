@@ -3,7 +3,10 @@ import { Note } from '../note';
 
 @Component({
   selector: 'app-note-list-item',
-  templateUrl: './note-list-item.component.html',
+  template: `<li [class.selected]="isSelected" (click)="selectNote()" (keypress)="selectNote()" tabindex="0">
+  <app-note-title [note]="note"></app-note-title>
+  <app-delete-button (deletedEvent)="deleteNote()"></app-delete-button>
+</li>`,
   styleUrls: ['./note-list-item.component.less']
 })
 export class NoteListItemComponent {
@@ -27,9 +30,9 @@ export class NoteListItemComponent {
   }
 
   selectNote(): boolean {
-      this.noteSelectionChange.emit(this.note);
+    this.noteSelectionChange.emit(this.note);
 
-      return false;
+    return false;
   }
 
 }

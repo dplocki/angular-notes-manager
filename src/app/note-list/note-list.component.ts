@@ -14,7 +14,6 @@ export class NoteListComponent {
   @Output() noteDeleted = new EventEmitter<Note>();
 
   selectNote(note: Note): boolean {
-      this.selectedNote = note;
       this.noteSelectionChange.emit(note);
 
       return false;
