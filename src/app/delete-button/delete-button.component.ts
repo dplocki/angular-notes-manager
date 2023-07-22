@@ -1,5 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Note } from '../note';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-delete-button',
@@ -8,11 +7,10 @@ import { Note } from '../note';
 })
 export class DeleteButtonComponent {
 
-  @Input() note!: Note;
-  @Output() noteDeleted = new EventEmitter<Note>();
+  @Output() deletedEvent = new EventEmitter();
 
   deleteNote(): boolean {
-    this.noteDeleted.emit(this.note);
+    this.deletedEvent.emit();
 
     return false;
   }
