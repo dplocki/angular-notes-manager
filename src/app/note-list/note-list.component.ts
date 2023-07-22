@@ -3,7 +3,14 @@ import { Note } from '../note';
 
 @Component({
   selector: 'app-note-list',
-  templateUrl: './note-list.component.html',
+  template: `<ol>
+  <app-note-list-item *ngFor="let note of notes"
+                 [note]="note"
+                 [isSelected]="note === selectedNote"
+                 (click)="selectNote(note)"
+                 (keypress)="selectNote(note)"
+                 (noteDeleted)="deleteNote(note)" />
+</ol>`,
   styleUrls: ['./note-list.component.less']
 })
 export class NoteListComponent {
@@ -14,9 +21,10 @@ export class NoteListComponent {
   @Output() noteDeleted = new EventEmitter<Note>();
 
   selectNote(note: Note): boolean {
-      this.noteSelectionChange.emit(note);
+    this.selectedNote = note;
+    this.noteSelectionChange.emit(note);
 
-      return false;
+    return false;
   }
 
   deleteNote(note: Note): boolean {

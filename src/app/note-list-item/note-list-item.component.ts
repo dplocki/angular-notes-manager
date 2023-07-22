@@ -3,7 +3,7 @@ import { Note } from '../note';
 
 @Component({
   selector: 'app-note-list-item',
-  template: `<li [class.selected]="isSelected" (click)="selectNote()" (keypress)="selectNote()" tabindex="0">
+  template: `<li [class.selected]="isSelected" tabindex="0">
   <app-note-title [note]="note"></app-note-title>
   <app-delete-button (deletedEvent)="deleteNote()"></app-delete-button>
 </li>`,
@@ -20,17 +20,8 @@ export class NoteListItemComponent {
   @Output()
   noteDeleted: EventEmitter<Note> = new EventEmitter<Note>();
 
-  @Output()
-  noteSelectionChange = new EventEmitter<Note>();
-
   deleteNote(): boolean {
     this.noteDeleted.emit(this.note);
-
-    return false;
-  }
-
-  selectNote(): boolean {
-    this.noteSelectionChange.emit(this.note);
 
     return false;
   }

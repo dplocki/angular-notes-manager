@@ -1,7 +1,0 @@
-<ol>
-    <app-note-list-item *ngFor="let note of notes"
-                   [note]="note"
-                   [isSelected]="note === selectedNote"
-                   (noteSelectionChange)="selectNote(note)"
-                   (noteDeleted)="deleteNote(note)" />
-</ol>
