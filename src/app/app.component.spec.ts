@@ -4,7 +4,7 @@ import { NoteDetailComponent } from './note-detail/note-detail.component';
 import { NoteListComponent } from './note-list/note-list.component';
 import { FormsModule } from '@angular/forms';
 import { NoteTitlePipe } from './note-title.pipe';
-import { DeleteButtonComponent } from './delete-button/delete-button.component';
+import { DeleteButtonComponent, NewButtonComponent } from './base-button/base-button.component';
 
 describe('AppComponent', () => {
 
@@ -15,7 +15,8 @@ describe('AppComponent', () => {
         NoteDetailComponent,
         NoteListComponent,
         NoteTitlePipe,
-        DeleteButtonComponent
+        DeleteButtonComponent,
+        NewButtonComponent
       ],
       imports: [FormsModule]
     }).compileComponents();

@@ -10,7 +10,7 @@ import { SilenceLoggerService } from './services/silence-logger.service';
 import { LoggerService } from './services/logger.service';
 import { NoteListItemComponent } from './note-list-item/note-list-item.component';
 import { NoteTitleComponent } from './note-title/note-title.component';
-import { DeleteButtonComponent } from './delete-button/delete-button.component';
+import { DeleteButtonComponent, NewButtonComponent } from './base-button/base-button.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,8 @@ import { DeleteButtonComponent } from './delete-button/delete-button.component';
     NoteTitlePipe,
     NoteListItemComponent,
     NoteTitleComponent,
-    DeleteButtonComponent
+    DeleteButtonComponent,
+    NewButtonComponent
   ],
   imports: [
     BrowserModule,

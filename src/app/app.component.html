@@ -1,8 +1,8 @@
 <section class="app">
     <header>
-        <span>[<a tabindex="0" (click)="addNoteButtonClick()" (keypress)="addNoteButtonClick()">New</a>]</span>
+        <app-new-button (invokeEvent)="addNoteButtonClick()" />
         <span>[<a tabindex="0" [class.workInProgress]="isSavingInProgress" (keypress)="saveNoteButtonClick()" (keydown)="saveNoteButtonClick()">{{ isSavingInProgress ? 'Saving...' : 'Save' }}</a>]</span>
-        <app-delete-button (deletedEvent)="deleteNoteButtonClick(selectedNote())" />
+        <app-delete-button (invokeEvent)="deleteNoteButtonClick(selectedNote())" />
     </header>
     <article>
         <app-note-detail [note]="selectedNote" />
