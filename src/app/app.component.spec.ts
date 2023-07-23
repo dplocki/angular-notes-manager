@@ -4,12 +4,19 @@ import { NoteDetailComponent } from './note-detail/note-detail.component';
 import { NoteListComponent } from './note-list/note-list.component';
 import { FormsModule } from '@angular/forms';
 import { NoteTitlePipe } from './note-title.pipe';
+import { DeleteButtonComponent } from './delete-button/delete-button.component';
 
 describe('AppComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AppComponent, NoteDetailComponent, NoteListComponent, NoteTitlePipe],
+      declarations: [
+        AppComponent,
+        NoteDetailComponent,
+        NoteListComponent,
+        NoteTitlePipe,
+        DeleteButtonComponent
+      ],
       imports: [FormsModule]
     }).compileComponents();
   });
