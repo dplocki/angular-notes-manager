@@ -5,7 +5,7 @@ import { Note } from '../note';
   selector: 'app-note-list-item',
   template: `<li [class.selected]="isSelected" tabindex="0">
   <app-note-title [note]="note" />
-  <app-delete-button (deletedEvent)="deleteNote()" />
+  <app-delete-button (invokeEvent)="deleteNote()" />
 </li>`,
   styleUrls: ['./note-list-item.component.less']
 })
