@@ -61,11 +61,7 @@ export class AppComponent implements OnInit {
       .then(() => this.startTimeInterval());
   }
 
-  deleteNoteButtonClick(note: Note): void {
-    this.deleteNote(note);
-  }
-
-  private deleteNote(note: Note): void {
+  deleteNote(note: Note): void {
     if (!this.browserInteractionService.question('Do you realy wish to delete the note?')) {
       return;
     }

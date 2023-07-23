@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 const buttonTemplate = '<span>[<a (click)="invoke()" (keypress)="invoke()" tabindex="0">{{ label }}</a>]</span>';
 
@@ -35,7 +35,6 @@ export class DeleteButtonComponent extends BaseButtonComponent {
 
 }
 
-
 @Component({
   selector: 'app-new-button',
   template: buttonTemplate,
@@ -46,6 +45,25 @@ export class NewButtonComponent extends BaseButtonComponent {
   constructor() {
     super();
     this.label = 'New';
+  }
+
+}
+
+@Component({
+  selector: 'app-save-button',
+  template: `<span>[<a tabindex="0" [class.workInProgress]="isSavingInProgress" (keypress)="invoke()" (keydown)="invoke()">{{ isSavingInProgress ? 'Saving...' : 'Save' }}</a>]</span>`,
+  styles: [`a.workInProgress {
+    font-weight: bold;
+}`]
+})
+export class SaveButtonComponent extends BaseButtonComponent {
+
+  @Input()
+  isSavingInProgress = false;
+
+  constructor() {
+    super();
+    this.label = 'Save';
   }
 
 }
