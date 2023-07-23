@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeleteButtonComponent } from './base-button.component';
+import { SaveButtonComponent } from './base-button.component';
 
-describe('DeleteButtonComponent', () => {
-  let component: DeleteButtonComponent;
-  let fixture: ComponentFixture<DeleteButtonComponent>;
+describe('SaveButtonComponent', () => {
+  let component: SaveButtonComponent;
+  let fixture: ComponentFixture<SaveButtonComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DeleteButtonComponent]
+      declarations: [SaveButtonComponent]
     });
-    fixture = TestBed.createComponent(DeleteButtonComponent);
+    fixture = TestBed.createComponent(SaveButtonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -19,7 +19,13 @@ describe('DeleteButtonComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call deleteNote() method when the button is clicked', () => {
+  it('it should display correct label', () => {
+    const button = fixture.nativeElement.querySelector('a');
+
+    expect(button.textContent).toBe('Delete');
+  });
+
+  it('should call invokeEvent() method when the button is clicked', () => {
     spyOn(component, 'invoke');
     const deleteButton = fixture.nativeElement.querySelector('a');
 
@@ -28,7 +34,7 @@ describe('DeleteButtonComponent', () => {
     expect(component.invoke).toHaveBeenCalled();
   });
 
-  it('should emit deletedEvent when the button is clicked', () => {
+  it('should emit invokeEvent when the button is clicked', () => {
     spyOn(component.invokeEvent, 'emit');
     const deleteButton = fixture.nativeElement.querySelector('a');
 
