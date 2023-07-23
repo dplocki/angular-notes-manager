@@ -1,29 +1,73 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NoteListItemComponent } from './note-list-item.component';
-import { NoteTitleComponent } from '../note-title/note-title.component';
-import { DeleteButtonComponent } from '../delete-button/delete-button.component';
-import { NoteTitlePipe } from '../note-title.pipe';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Note } from '../note';
+import { makeBoolean, makeNote } from '../shared/testing/generators';
+import { By } from '@angular/platform-browser';
 
 describe('NoteListItemComponent', () => {
-  let component: NoteListItemComponent;
+  let noteListItemComponent: NoteListItemComponent;
   let fixture: ComponentFixture<NoteListItemComponent>;
+
+  @Component({ selector: 'app-note-title', template: '' })
+  class MockNoteTitleComponent {
+    @Input() note!: Note;
+  }
+
+  @Component({ selector: 'app-delete-button', template: '' })
+  class MockDeleteButtonComponent {
+    @Output() deletedEvent = new EventEmitter();
+  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         NoteListItemComponent,
-        NoteTitleComponent,
-        DeleteButtonComponent,
-        NoteTitlePipe
+        MockNoteTitleComponent,
+        MockDeleteButtonComponent
       ],
     });
+
     fixture = TestBed.createComponent(NoteListItemComponent);
-    component = fixture.componentInstance;
+    noteListItemComponent = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(noteListItemComponent).toBeTruthy();
   });
+
+  it('should correctly initialize isSelected', () => {
+    const isSelectedValue = makeBoolean();
+
+    noteListItemComponent.isSelected = isSelectedValue;
+    fixture.detectChanges();
+
+    const listItemElement = fixture.nativeElement.querySelector('li');
+    expect(listItemElement.classList.contains('selected')).toBe(isSelectedValue);
+  });
+
+  it('should correctly initialize note value', () => {
+    const noteValue = makeNote().make();
+
+    noteListItemComponent.note = noteValue;
+    fixture.detectChanges();
+
+    const noteTitleComponent = fixture.debugElement.query(By.directive(MockNoteTitleComponent)).componentInstance;
+    expect(noteTitleComponent).toBeTruthy();
+    expect(noteTitleComponent.note).toBe(noteValue);
+  });
+
+  it('should emit noteDeleted event on deleteNote()', () => {
+    spyOn(noteListItemComponent.noteDeleted, 'emit');
+    const testNote = makeNote().make();
+
+    noteListItemComponent.note = testNote;
+    fixture.detectChanges();
+
+    noteListItemComponent.deleteNote();
+    expect(noteListItemComponent.noteDeleted.emit).toHaveBeenCalledWith(testNote);
+  });
+
 });

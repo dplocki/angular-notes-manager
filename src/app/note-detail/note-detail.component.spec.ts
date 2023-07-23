@@ -39,7 +39,6 @@ describe('NoteDetailComponent', () => {
     expect(textareaElement.value).toBe(noteContent);
   });
 
-
   it('should update the note text property on keyup', () => {
     const note = makeNote().make();
     const newNoteText = makeString();

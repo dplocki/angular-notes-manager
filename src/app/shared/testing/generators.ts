@@ -12,6 +12,10 @@ export function makeNumber(max = 1024, min = 0): number {
   return min + Math.floor(Math.random() * max);
 }
 
+export function makeBoolean() {
+  return Math.floor(Math.random() * 1024) % 2 == 0;
+}
+
 interface Maker<T> {
   make(): T;
 }
