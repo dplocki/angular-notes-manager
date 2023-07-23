@@ -1,32 +1,62 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { NoteDetailComponent } from './note-detail/note-detail.component';
-import { NoteListComponent } from './note-list/note-list.component';
 import { FormsModule } from '@angular/forms';
-import { NoteTitlePipe } from './note-title.pipe';
-import { DeleteButtonComponent, NewButtonComponent, SaveButtonComponent } from './base-button/base-button.component';
+import { Component, EventEmitter, Input, Output, WritableSignal } from '@angular/core';
+import { Note } from './note';
 
 describe('AppComponent', () => {
+  let appComponent: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  @Component({ selector: 'app-note-detail', template: '' })
+  class MockNoteDetailComponent {
+    @Input() note!: WritableSignal<Note>;
+  }
+
+  @Component({ selector: 'app-note-list', template: '' })
+  class MockNoteListComponent {
+    @Input() notes!: Note[];
+    @Input() selectedNote!: Note;
+    @Output() noteSelectionChange = new EventEmitter<Note>();
+    @Output() noteDeleted = new EventEmitter<Note>();
+  }
+
+  @Component({ selector: 'app-delete-button', template: '' })
+  class MockDeleteButtonComponent {
+    @Output() invokeEvent = new EventEmitter();
+  }
+
+  @Component({ selector: 'app-new-button', template: '' })
+  class MockNewButtonComponent {
+    @Output() invokeEvent = new EventEmitter();
+  }
+
+  @Component({ selector: 'app-save-button', template: '' })
+  class MockSaveButtonComponent {
+    @Input() isSavingInProgress = false;
+    @Output() invokeEvent = new EventEmitter();
+  }
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
       declarations: [
         AppComponent,
-        NoteDetailComponent,
-        NoteListComponent,
-        NoteTitlePipe,
-        DeleteButtonComponent,
-        NewButtonComponent,
-        SaveButtonComponent
+        MockNoteDetailComponent,
+        MockNoteListComponent,
+        MockDeleteButtonComponent,
+        MockNewButtonComponent,
+        MockSaveButtonComponent
       ],
       imports: [FormsModule]
-    }).compileComponents();
+    });
+
+    fixture = TestBed.createComponent(AppComponent);
+    appComponent = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+    expect(appComponent).toBeTruthy();
   });
 
 });
