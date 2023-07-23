@@ -5,15 +5,13 @@
         <app-delete-button (deletedEvent)="deleteNoteButtonClick(selectedNote())" />
     </header>
     <article>
-        <app-note-detail [note]="selectedNote"></app-note-detail>
+        <app-note-detail [note]="selectedNote" />
     </article>
     <aside>
         <app-note-list
             [notes]="notes"
             [selectedNote]="selectedNote()"
             (noteSelectionChange)="selectedNoteChange($event)"
-            (noteDeleted)="deleteNoteFromList($event)"
-        >
-        </app-note-list>
+            (noteDeleted)="deleteNoteFromList($event)" />
     </aside>
 </section>
