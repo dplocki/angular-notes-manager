@@ -22,10 +22,12 @@ describe('SaveButtonComponent', () => {
   it('it should display correct label', () => {
     const button = fixture.nativeElement.querySelector('a');
 
+    component.isSavingInProgress = false;
+
     expect(button.textContent).toBe('Save');
   });
 
-  it('should call invokeEvent() method when the button is clicked and the button is active', () => {
+  it('should call invokeEvent() method when the button is clicked', () => {
     spyOn(component, 'invoke');
     const saveButton = fixture.nativeElement.querySelector('a');
 
@@ -41,6 +43,15 @@ describe('SaveButtonComponent', () => {
     saveButton.click();
 
     expect(component.invokeEvent.emit).toHaveBeenCalled();
+  });
+
+  it('should display waiting label for isSavingInProgress', () => {
+    const saveButton = fixture.nativeElement.querySelector('a');
+
+    component.isSavingInProgress = true;
+    fixture.detectChanges();
+
+    expect(saveButton.textContent).toBe('...');
   });
 
 });
