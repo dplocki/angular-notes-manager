@@ -22,23 +22,23 @@ describe('SaveButtonComponent', () => {
   it('it should display correct label', () => {
     const button = fixture.nativeElement.querySelector('a');
 
-    expect(button.textContent).toBe('Delete');
+    expect(button.textContent).toBe('Save');
   });
 
-  it('should call invokeEvent() method when the button is clicked', () => {
+  it('should call invokeEvent() method when the button is clicked and the button is active', () => {
     spyOn(component, 'invoke');
-    const deleteButton = fixture.nativeElement.querySelector('a');
+    const saveButton = fixture.nativeElement.querySelector('a');
 
-    deleteButton.click();
+    saveButton.click();
 
     expect(component.invoke).toHaveBeenCalled();
   });
 
   it('should emit invokeEvent when the button is clicked', () => {
     spyOn(component.invokeEvent, 'emit');
-    const deleteButton = fixture.nativeElement.querySelector('a');
+    const saveButton = fixture.nativeElement.querySelector('a');
 
-    deleteButton.click();
+    saveButton.click();
 
     expect(component.invokeEvent.emit).toHaveBeenCalled();
   });

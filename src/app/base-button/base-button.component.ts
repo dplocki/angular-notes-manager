@@ -51,7 +51,7 @@ export class NewButtonComponent extends BaseButtonComponent {
 
 @Component({
   selector: 'app-save-button',
-  template: `<span>[<a tabindex="0" [class.workInProgress]="isSavingInProgress" (keypress)="invoke()" (keydown)="invoke()">{{ isSavingInProgress ? 'Saving...' : 'Save' }}</a>]</span>`,
+  template: `<span>[<a tabindex="0" [class.workInProgress]="isSavingInProgress" (click)="invoke()" (keypress)="invoke()" (keydown)="invoke()">{{ isSavingInProgress ? 'Saving...' : 'Save' }}</a>]</span>`,
   styles: [`a.workInProgress {
     font-weight: bold;
 }`]
