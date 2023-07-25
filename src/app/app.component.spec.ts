@@ -70,8 +70,8 @@ describe('AppComponent', () => {
     });
 
     noteServiceSpy = TestBed.inject(NoteService) as jasmine.SpyObj<NoteService>;
-    noteServiceSpy.createNote.and.returnValue(makeNote().setText('').make());
     noteServiceSpy.getNotes.and.resolveTo([]);
+    noteServiceSpy.createNote.and.returnValue(makeNote().setText('').make());
 
     fixture = TestBed.createComponent(AppComponent);
     appComponent = fixture.componentInstance;
@@ -79,9 +79,9 @@ describe('AppComponent', () => {
   });
 
   it('should create the app', () => {
-
-    expect(noteServiceSpy.createNote).toHaveBeenCalled();
     expect(appComponent).toBeTruthy();
+    expect(noteServiceSpy.createNote).toHaveBeenCalled();
+    expect(noteServiceSpy.getNotes).toHaveBeenCalled();
   });
 
 });
