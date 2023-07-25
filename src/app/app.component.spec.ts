@@ -6,11 +6,9 @@ import { Note } from './note';
 import { NoteService } from './services/note.service';
 import { IntervalService } from './services/interval.service';
 import { BrowserInteractionService } from './services/browser-interaction.service';
-import { makeNote } from './shared/testing/generators';
+import { makeNote, makeNumber, multiple } from './shared/testing/generators';
 
 describe('AppComponent', () => {
-  let appComponent: AppComponent;
-  let fixture: ComponentFixture<AppComponent>;
   let noteServiceSpy: jasmine.SpyObj<NoteService>;
 
   @Component({ selector: 'app-note-detail', template: '' })
@@ -70,18 +68,40 @@ describe('AppComponent', () => {
     });
 
     noteServiceSpy = TestBed.inject(NoteService) as jasmine.SpyObj<NoteService>;
-    noteServiceSpy.getNotes.and.resolveTo([]);
-    noteServiceSpy.createNote.and.returnValue(makeNote().setText('').make());
-
-    fixture = TestBed.createComponent(AppComponent);
-    appComponent = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  it('should create the app', () => {
-    expect(appComponent).toBeTruthy();
-    expect(noteServiceSpy.createNote).toHaveBeenCalled();
-    expect(noteServiceSpy.getNotes).toHaveBeenCalled();
+  describe('on start', () => {
+
+    it('should, if noteService#getNotes return empty collection, calls noteService#createNote', async () => {
+      noteServiceSpy.getNotes.and.resolveTo([]);
+      noteServiceSpy.createNote.and.returnValue(makeNote().setText('').make());
+
+      const fixture = TestBed.createComponent(AppComponent);
+      const appComponent = fixture.componentInstance;
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(appComponent).toBeTruthy();
+      expect(noteServiceSpy.createNote).toHaveBeenCalled();
+      expect(noteServiceSpy.getNotes).toHaveBeenCalled();
+    });
+
+    it('should, if noteService#getNotes return non-empty collection, select first note', async () => {
+      const notes = multiple(makeNote(), makeNumber(7, 2));
+      noteServiceSpy.getNotes.and.resolveTo(notes);
+      noteServiceSpy.createNote.and.returnValue(makeNote().setText('').make());
+
+      const fixture = TestBed.createComponent(AppComponent);
+      const appComponent = fixture.componentInstance;
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(appComponent).toBeTruthy();
+      expect(noteServiceSpy.getNotes).toHaveBeenCalled();
+      expect(appComponent.selectedNote()).toBe(notes[0])
+      expect(appComponent.notes).toBe(notes);
+    });
+
   });
 
 });

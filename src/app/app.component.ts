@@ -1,9 +1,10 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, WritableSignal, signal } from '@angular/core';
 import { Note } from "./note";
 import { NoteService } from './services/note.service';
 import { ChangeDetector } from './change-detector';
 import { IntervalService } from './services/interval.service';
 import { BrowserInteractionService } from './services/browser-interaction.service';
+import { single } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -13,8 +14,7 @@ import { BrowserInteractionService } from './services/browser-interaction.servic
 export class AppComponent implements OnInit {
   private static readonly INTERVAL_TIME = 5000;
 
-  selectedNote = signal(this.noteService.createNote());
-
+  selectedNote!: WritableSignal<Note>;
   notes!: Note[];
   isSavingInProgress = false;
   changeDetector: ChangeDetector = new ChangeDetector();
@@ -76,7 +76,7 @@ export class AppComponent implements OnInit {
       this.notes.push(this.noteService.createNote());
     }
 
-    this.selectedNote.set(this.notes[0]);
+    this.selectedNote = signal(this.notes[0]);
     this.changeDetector.setNote(this.notes[0]);
   }
 
