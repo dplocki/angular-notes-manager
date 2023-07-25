@@ -42,10 +42,6 @@ export class AppComponent implements OnInit {
     this.changeDetector.setNote(note);
   }
 
-  deleteNoteFromList(note: Note): void {
-    this.deleteNote(note);
-  }
-
   addNoteButtonClick(): void {
     const newNote = this.noteService.createNote();
 
