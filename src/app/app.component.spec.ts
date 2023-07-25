@@ -6,7 +6,7 @@ import { Note } from './note';
 import { NoteService } from './services/note.service';
 import { IntervalService } from './services/interval.service';
 import { BrowserInteractionService } from './services/browser-interaction.service';
-import { makeNote, multiple } from './shared/testing/generators';
+import { makeNote } from './shared/testing/generators';
 
 describe('AppComponent', () => {
   let appComponent: AppComponent;
