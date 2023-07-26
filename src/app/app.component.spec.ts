@@ -9,6 +9,7 @@ import { BrowserInteractionService } from './services/browser-interaction.servic
 import { makeNote, makeNumber, multiple } from './shared/testing/generators';
 
 describe('AppComponent', () => {
+  const emptyNote = makeNote().setText('').make();
   let noteServiceSpy: jasmine.SpyObj<NoteService>;
 
   @Component({ selector: 'app-note-detail', template: '' })
@@ -74,7 +75,7 @@ describe('AppComponent', () => {
 
     it('should, if noteService#getNotes return empty collection, calls noteService#createNote', async () => {
       noteServiceSpy.getNotes.and.resolveTo([]);
-      noteServiceSpy.createNote.and.returnValue(makeNote().setText('').make());
+      noteServiceSpy.createNote.and.returnValue(emptyNote);
 
       const fixture = TestBed.createComponent(AppComponent);
       const appComponent = fixture.componentInstance;
@@ -89,7 +90,7 @@ describe('AppComponent', () => {
     it('should, if noteService#getNotes return non-empty collection, select first note', async () => {
       const notes = multiple(makeNote(), makeNumber(7, 2));
       noteServiceSpy.getNotes.and.resolveTo(notes);
-      noteServiceSpy.createNote.and.returnValue(makeNote().setText('').make());
+      noteServiceSpy.createNote.and.returnValue(emptyNote);
 
       const fixture = TestBed.createComponent(AppComponent);
       const appComponent = fixture.componentInstance;
@@ -102,6 +103,20 @@ describe('AppComponent', () => {
       expect(appComponent.notes).toBe(notes);
     });
 
+  });
+
+  it('selectedNoteChange should change the selectedNote, when Note is also in notes', async () => {
+    const notes = multiple(makeNote(), 4);
+    const selectNote = notes[makeNumber(notes.length - 1, 1)];
+    noteServiceSpy.getNotes.and.resolveTo(notes);
+    noteServiceSpy.createNote.and.returnValue(emptyNote);
+    const fixture = TestBed.createComponent(AppComponent);
+    const appComponent = fixture.componentInstance;
+    fixture.detectChanges();
+
+    appComponent.selectedNoteChange(selectNote);
+
+    expect(appComponent.selectedNote()).toBe(selectNote);
   });
 
 });
