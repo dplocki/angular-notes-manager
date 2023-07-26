@@ -105,18 +105,42 @@ describe('AppComponent', () => {
 
   });
 
-  it('selectedNoteChange should change the selectedNote, when Note is also in notes', async () => {
-    const notes = multiple(makeNote(), 4);
-    const selectNote = notes[makeNumber(notes.length - 1, 1)];
-    noteServiceSpy.getNotes.and.resolveTo(notes);
-    noteServiceSpy.createNote.and.returnValue(emptyNote);
-    const fixture = TestBed.createComponent(AppComponent);
-    const appComponent = fixture.componentInstance;
-    fixture.detectChanges();
+  describe('selectedNoteChange', () => {
 
-    appComponent.selectedNoteChange(selectNote);
+    it('should change the selectedNote, when Note is also in notes', async () => {
+      const notes = multiple(makeNote(), makeNumber(7, 2));
+      const selectNote = notes[makeNumber(notes.length - 1, 1)];
+      noteServiceSpy.getNotes.and.resolveTo(notes);
+      noteServiceSpy.createNote.and.returnValue(emptyNote);
+      const fixture = TestBed.createComponent(AppComponent);
+      const appComponent = fixture.componentInstance;
+      fixture.detectChanges();
 
-    expect(appComponent.selectedNote()).toBe(selectNote);
+      appComponent.selectedNoteChange(selectNote);
+
+      expect(appComponent.selectedNote()).toBe(selectNote);
+    });
+
+  });
+
+  describe('addNoteButtonClick', () => {
+
+    it('should call the noteService#createNote, and the result be add into notes and selected', async () => {
+      const notesLength = makeNumber(7, 2);
+      const notes = multiple(makeNote(), notesLength);
+      noteServiceSpy.getNotes.and.resolveTo(notes);
+      noteServiceSpy.createNote.and.returnValue(emptyNote);
+      const fixture = TestBed.createComponent(AppComponent);
+      const appComponent = fixture.componentInstance;
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      appComponent.addNoteButtonClick();
+
+      expect(appComponent.notes.length).toBe(notesLength + 1);
+      expect(noteServiceSpy.createNote).toHaveBeenCalledTimes(2); // once on beging, once on addNoteButtonClick
+    });
+
   });
 
 });
