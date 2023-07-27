@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Note } from '../note';
 import { LoggerService } from './logger.service';
 import { StoragedNote } from './storaged-note';
+import { Observable, from } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -55,14 +56,14 @@ export class LocalStorageService {
     });
   }
 
-  loadNotes(): Promise<Note[]> {
-    return new Promise<Note[]>((resolve) => {
-      this.loggerService.log('Load notes');
+  loadNotes(): Observable<Note> {
+    this.loggerService.log('Load notes');
 
-      resolve(this.loadRawDataFromLocalStorage()
-        .map((r: StoragedNote) => new Note(r.text, r.id))
-      );
-    });
+    const notes = this
+      .loadRawDataFromLocalStorage()
+      .map((r: StoragedNote) => new Note(r.text, r.id));
+
+    return from(notes);
   }
 
   private loadRawDataFromLocalStorage(): StoragedNote[] {

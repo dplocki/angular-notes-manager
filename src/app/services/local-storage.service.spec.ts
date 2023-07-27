@@ -4,6 +4,7 @@ import { LocalStorageService } from './local-storage.service';
 import { LoggerService } from './logger.service';
 import { Note } from '../note';
 import { makeNote, makeNumber, multiple } from '../shared/testing/generators';
+import { lastValueFrom, toArray } from 'rxjs';
 
 describe('LocalStorageService', () => {
   let localStorageService: LocalStorageService;
@@ -107,7 +108,7 @@ describe('LocalStorageService', () => {
       const storedNotes: Note[] = multiple(makeNote(), 3);
       localStoreSpy.getItem.and.returnValues(JSON.stringify(storedNotes));
 
-      const loadNotes = await localStorageService.loadNotes();
+      const loadNotes = await lastValueFrom(localStorageService.loadNotes().pipe(toArray()));
 
       expect(localStoreSpy.getItem).toHaveBeenCalled();
       expect(localStoreSpy.setItem).not.toHaveBeenCalled();
