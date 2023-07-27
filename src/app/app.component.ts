@@ -50,9 +50,6 @@ export class AppComponent implements OnInit {
   }
 
   saveNoteButtonClick(): void {
-    // I used to have a blocked here in case of ongoing saving operation,
-    // but I remove it: gives more problems than gets
-
     this.callSaveNoteFromService(this.selectedNote())
       .then(() => this.startTimeInterval());
   }

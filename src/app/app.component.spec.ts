@@ -11,6 +11,7 @@ import { makeNote, makeNumber, multiple } from './shared/testing/generators';
 describe('AppComponent', () => {
   const emptyNote = makeNote().setText('').make();
   let noteServiceSpy: jasmine.SpyObj<NoteService>;
+  let intervalServiceSpy: jasmine.SpyObj<IntervalService>;
 
   @Component({ selector: 'app-note-detail', template: '' })
   class MockNoteDetailComponent {
@@ -69,6 +70,7 @@ describe('AppComponent', () => {
     });
 
     noteServiceSpy = TestBed.inject(NoteService) as jasmine.SpyObj<NoteService>;
+    intervalServiceSpy = TestBed.inject(IntervalService) as jasmine.SpyObj<IntervalService>;
   });
 
   describe('on start', () => {
@@ -139,6 +141,25 @@ describe('AppComponent', () => {
 
       expect(appComponent.notes.length).toBe(notesLength + 1);
       expect(noteServiceSpy.createNote).toHaveBeenCalledTimes(2); // once on beging, once on addNoteButtonClick
+    });
+
+  });
+
+  describe('saveNoteButtonClick', () => {
+
+    it('should check reset the save interval', async () => {
+      noteServiceSpy.getNotes.and.resolveTo([]);
+      noteServiceSpy.createNote.and.returnValue(emptyNote);
+      const fixture = TestBed.createComponent(AppComponent);
+      const appComponent = fixture.componentInstance;
+
+      appComponent.saveNoteButtonClick();
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(noteServiceSpy.saveNote).toHaveBeenCalled();
+      expect(intervalServiceSpy.clearInterval).toHaveBeenCalled();
+      expect(intervalServiceSpy.setInterval).toHaveBeenCalled();
     });
 
   });
