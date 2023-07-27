@@ -12,6 +12,7 @@ describe('AppComponent', () => {
   const emptyNote = makeNote().setText('').make();
   let noteServiceSpy: jasmine.SpyObj<NoteService>;
   let intervalServiceSpy: jasmine.SpyObj<IntervalService>;
+  let browserInteractionServiceSpy: jasmine.SpyObj<BrowserInteractionService>;
 
   @Component({ selector: 'app-note-detail', template: '' })
   class MockNoteDetailComponent {
@@ -71,6 +72,7 @@ describe('AppComponent', () => {
 
     noteServiceSpy = TestBed.inject(NoteService) as jasmine.SpyObj<NoteService>;
     intervalServiceSpy = TestBed.inject(IntervalService) as jasmine.SpyObj<IntervalService>;
+    browserInteractionServiceSpy = TestBed.inject(BrowserInteractionService) as jasmine.SpyObj<BrowserInteractionService>;
   });
 
   describe('on start', () => {
@@ -164,4 +166,55 @@ describe('AppComponent', () => {
 
   });
 
+  describe('deleteNote', () => {
+
+    it('should stop after browserInteractionService returning false', () => {
+      browserInteractionServiceSpy.question.and.returnValue(false);
+      const note = makeNote().make();
+      noteServiceSpy.getNotes.and.resolveTo([]);
+      noteServiceSpy.createNote.and.returnValue(emptyNote);
+      const fixture = TestBed.createComponent(AppComponent);
+      const appComponent = fixture.componentInstance;
+
+      appComponent.deleteNote(note);
+
+      expect(browserInteractionServiceSpy.question).toHaveBeenCalled();
+      expect(noteServiceSpy.deleteNote).not.toHaveBeenCalled();
+    });
+
+    it('should run after browserInteractionService returning true', () => {
+      browserInteractionServiceSpy.question.and.returnValue(true);
+      const note = makeNote().make();
+      noteServiceSpy.getNotes.and.resolveTo([]);
+      noteServiceSpy.createNote.and.returnValue(emptyNote);
+      const fixture = TestBed.createComponent(AppComponent);
+      const appComponent = fixture.componentInstance;
+
+      appComponent.deleteNote(note);
+
+      expect(browserInteractionServiceSpy.question).toHaveBeenCalled();
+      expect(noteServiceSpy.deleteNote).toHaveBeenCalled();
+    });
+
+    it('should call setting notes if deleted is the selected one', async () => {
+      browserInteractionServiceSpy.question.and.returnValue(true);
+      const note = makeNote().make();
+      const notDeletedNotes = multiple(makeNote(), makeNumber(2, 5));
+      noteServiceSpy.getNotes.and.resolveTo([...notDeletedNotes, note]);
+      noteServiceSpy.createNote.and.returnValue(emptyNote);
+      const fixture = TestBed.createComponent(AppComponent);
+      const appComponent = fixture.componentInstance;
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      appComponent.deleteNote(note);
+      fixture.detectChanges();
+
+      expect(browserInteractionServiceSpy.question).toHaveBeenCalled();
+      expect(noteServiceSpy.deleteNote).toHaveBeenCalled();
+      expect(appComponent.selectedNote()).toBe(notDeletedNotes[0]);
+      expect(appComponent.notes).toEqual(notDeletedNotes);
+    });
+
+  });
 });
