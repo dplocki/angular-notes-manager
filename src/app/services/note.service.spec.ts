@@ -3,6 +3,7 @@ import { NoteService } from './note.service';
 import { LocalStorageService } from './local-storage.service';
 import { IdGeneratorService } from './id-generator.service';
 import { makeNote, multiple } from '../shared/testing/generators';
+import { from, lastValueFrom, toArray } from 'rxjs';
 
 describe('NoteService', () => {
   const exampleNotes = multiple(makeNote(), 5);
@@ -42,10 +43,10 @@ describe('NoteService', () => {
   describe('getNotes', () => {
 
     it('getNotes should return stored notes and checked their ids', async () => {
-      storageServiceSpy.loadNotes.and.resolveTo(exampleNotes);
+      storageServiceSpy.loadNotes.and.returnValue(from(exampleNotes));
       idGeneratorServiceSpy.checkNumber.and.returnValues();
 
-      const notes = await noteService.getNotes();
+      const notes = await lastValueFrom(noteService.getNotes().pipe(toArray()));
 
       expect(notes).toEqual(exampleNotes);
       expect(idGeneratorServiceSpy.checkNumber).toHaveBeenCalledTimes(exampleNotes.length);

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Note } from '../note';
 import { LocalStorageService } from './local-storage.service';
 import { IdGeneratorService } from './id-generator.service';
+import { Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +15,8 @@ export class NoteService {
   ) {
   }
 
-  async getNotes(): Promise<Note[]> {
-    const notes = await this.storageService.loadNotes();
-    notes.forEach(n => this.idGeneratorService.checkNumber(n.id));
-    return notes;
+  getNotes(): Observable<Note> {
+    return this.storageService.loadNotes().pipe(tap(n => this.idGeneratorService.checkNumber(n.id)));
   }
 
   async saveNotes(notes: Note[]): Promise<Note[]> {
