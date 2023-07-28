@@ -4,7 +4,7 @@ import { NoteService } from './services/note.service';
 import { ChangeDetector } from './change-detector';
 import { IntervalService } from './services/interval.service';
 import { BrowserInteractionService } from './services/browser-interaction.service';
-import { BehaviorSubject, Observable, take } from 'rxjs';
+import { BehaviorSubject, Observable, firstValueFrom, lastValueFrom, take } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -36,9 +36,11 @@ export class AppComponent {
     // this.selectedNoteChange(newNote);
   }
 
-  saveNoteButtonClick(): void {
-    // this.callSaveNoteFromService(this.selectedNote())
-    //   .then(() => this.startTimeInterval());
+  async saveNoteButtonClick(): Promise<void> {
+    const note = await firstValueFrom(this.selectedNote$);
+
+    this.noteService.saveNote(note)
+    this.loadNotes();
   }
 
   deleteNote(note: Note): void {
