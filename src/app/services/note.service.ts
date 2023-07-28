@@ -15,8 +15,11 @@ export class NoteService {
   ) {
   }
 
-  getNotes(): Observable<Note> {
-    return this.storageService.loadNotes().pipe(tap(n => this.idGeneratorService.checkNumber(n.id)));
+  getNotes(): Observable<Note[]> {
+    return this
+      .storageService
+      .loadNotes()
+      .pipe(tap(notes => notes.forEach(n => this.idGeneratorService.checkNumber(n.id))));
   }
 
   async saveNotes(notes: Note[]): Promise<Note[]> {
