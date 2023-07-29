@@ -5,6 +5,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Note } from '../note';
 import { makeNote, multiple } from '../shared/testing/generators';
 import { By } from '@angular/platform-browser';
+import { invokeOnPushChanges } from '../shared/testing/utils';
 
 describe('NoteListComponent', () => {
   let component: NoteListComponent;
@@ -39,7 +40,7 @@ describe('NoteListComponent', () => {
 
     component.notes = testNotes;
     component.selectedNote = testSelectedNote;
-    fixture.detectChanges();
+    invokeOnPushChanges(fixture);
 
     const noteItems = fixture.debugElement.queryAll(By.directive(MockNoteListItemComponent));
     expect(noteItems.length).toBe(testNotes.length);
