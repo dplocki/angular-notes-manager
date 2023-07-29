@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Note } from '../note';
 
 @Component({
@@ -11,7 +11,8 @@ import { Note } from '../note';
                  (keypress)="selectNote(note)"
                  (noteDeleted)="deleteNote(note)" />
 </ol>`,
-  styleUrls: ['./note-list.component.less']
+  styleUrls: ['./note-list.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NoteListComponent {
 

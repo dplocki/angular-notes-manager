@@ -1,21 +1,22 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Note } from "./note";
 import { NoteService } from './services/note.service';
 import { ChangeDetector } from './change-detector';
 import { IntervalService } from './services/interval.service';
 import { BrowserInteractionService } from './services/browser-interaction.service';
-import { BehaviorSubject, Observable, firstValueFrom, lastValueFrom, take } from 'rxjs';
+import { BehaviorSubject, Subject, firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.less']
+  styleUrls: ['./app.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   private static readonly INTERVAL_TIME = 5000;
 
-  selectedNote$!: BehaviorSubject<Note>;
-  notes$!: Observable<Note[]>;
+  selectedNote!: Note;
+  notes$: Subject<Note[]>;
   isSavingInProgress = false;
   changeDetector: ChangeDetector = new ChangeDetector();
 
@@ -24,39 +25,57 @@ export class AppComponent {
     private intervalService: IntervalService,
     private browserInteractionService: BrowserInteractionService
   ) {
+    this.notes$ = new BehaviorSubject<Note[]>([]);
+  }
+
+  ngOnInit(): void {
     this.loadNotes();
-    this.notes$.pipe(take(1)).subscribe(notes => this.selectedNote$ = new BehaviorSubject<Note>(notes[0]));
   }
 
   selectedNoteChange(note: Note): void {
-    this.selectedNote$.next(note);
+    this.selectedNote = note;
   }
 
-  addNoteButtonClick(): void {
-    // this.selectedNoteChange(newNote);
+  async addNoteButtonClick(): Promise<void> {
+    const note = this.noteService.createNote();
+    const notes = await firstValueFrom(this.notes$);
+
+    notes.push(note);
+
+    this.notes$.next(notes);
+    this.selectedNote = note;
   }
 
   async saveNoteButtonClick(): Promise<void> {
-    const note = await firstValueFrom(this.selectedNote$);
-
-    this.noteService.saveNote(note)
-    this.loadNotes();
+    await this.noteService.saveNote(this.selectedNote);
+    await this.loadNotes();
   }
 
-  deleteNote(note: Note): void {
+  async deleteNote(note: Note): Promise<void> {
     if (!this.browserInteractionService.question('Do you realy wish to delete the note?')) {
       return;
     }
 
-    this
-      .noteService
-      .deleteNote(note)
-      .then(() => this.loadNotes());
+    await this.noteService.deleteNote(note);
+    await this.loadNotes();
   }
 
-  private loadNotes(): void {
-    this.notes$ = this
-      .noteService
-      .getNotes();
+  private async loadNotes(): Promise<void> {
+    const notes = await firstValueFrom(this.noteService.getNotes());
+
+    if (notes.length == 0) {
+      notes.push(this.noteService.createNote());
+    }
+
+    this.notes$.next(notes);
+    if (this.selectedNote) {
+      const selectedNote = notes.find(n => n.id == this.selectedNote.id);
+      if (selectedNote) {
+        this.selectedNote = selectedNote;
+        return;
+      }
+    }
+
+    this.selectedNote = notes[0];
   }
 }
