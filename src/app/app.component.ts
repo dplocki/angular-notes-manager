@@ -46,7 +46,14 @@ export class AppComponent implements OnInit {
 
   async saveNoteButtonClick(): Promise<void> {
     await this.noteService.saveNote(this.selectedNote);
-    await this.loadNotes();
+
+    const notes = await firstValueFrom(this.notes$);
+    const index = notes.findIndex(note => note.id === this.selectedNote.id);
+
+    this.selectedNote = { ...this.selectedNote };
+    notes[index] = this.selectedNote;
+
+    this.notes$.next(notes);
   }
 
   async deleteNote(note: Note): Promise<void> {
@@ -61,13 +68,13 @@ export class AppComponent implements OnInit {
   private async loadNotes(): Promise<void> {
     const notes = await firstValueFrom(this.noteService.getNotes());
 
-    if (notes.length == 0) {
+    if (notes.length === 0) {
       notes.push(this.noteService.createNote());
     }
 
     this.notes$.next(notes);
     if (this.selectedNote) {
-      const selectedNote = notes.find(n => n.id == this.selectedNote.id);
+      const selectedNote = notes.find(n => n.id === this.selectedNote.id);
       if (selectedNote) {
         this.selectedNote = selectedNote;
         return;
