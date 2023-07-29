@@ -23,4 +23,4 @@ jobs:
 
     - run: npm ci
     - run: npm run lint
-    # - run: npm test --browsers=ChromeHeadless --watch false
+    - run: npx ng test --no-watch --no-progress
