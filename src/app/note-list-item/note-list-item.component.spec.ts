@@ -5,6 +5,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Note } from '../note';
 import { makeBoolean, makeNote } from '../shared/testing/generators';
 import { By } from '@angular/platform-browser';
+import { invokeOnPushChanges } from '../shared/testing/utils';
 
 describe('NoteListItemComponent', () => {
   let noteListItemComponent: NoteListItemComponent;
@@ -42,7 +43,7 @@ describe('NoteListItemComponent', () => {
     const isSelectedValue = makeBoolean();
 
     noteListItemComponent.isSelected = isSelectedValue;
-    fixture.detectChanges();
+    invokeOnPushChanges(fixture);
 
     const listItemElement = fixture.nativeElement.querySelector('li');
     expect(listItemElement.classList.contains('selected')).toBe(isSelectedValue);
@@ -52,7 +53,7 @@ describe('NoteListItemComponent', () => {
     const noteValue = makeNote().make();
 
     noteListItemComponent.note = noteValue;
-    fixture.detectChanges();
+    invokeOnPushChanges(fixture);
 
     const noteTitleComponent = fixture.debugElement.query(By.directive(MockNoteTitleComponent)).componentInstance;
     expect(noteTitleComponent).toBeTruthy();
