@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoteDetailComponent } from './note-detail.component';
 import { FormsModule } from '@angular/forms';
-import { signal } from '@angular/core';
 import { makeNote, makeString } from '../shared/testing/generators';
 
 describe('NoteDetailComponent', () => {
@@ -18,7 +17,7 @@ describe('NoteDetailComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(NoteDetailComponent);
     noteDetailComponent = fixture.componentInstance;
-    noteDetailComponent.note = signal(makeNote().make());
+    noteDetailComponent.note = makeNote().make();
 
     fixture.detectChanges();
   });
@@ -31,7 +30,7 @@ describe('NoteDetailComponent', () => {
     const noteContent = makeString();
     const note = makeNote().setText(noteContent).make();
 
-    noteDetailComponent.note = signal(note);
+    noteDetailComponent.note = note;
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -42,14 +41,14 @@ describe('NoteDetailComponent', () => {
   it('should update the note text property on keyup', () => {
     const note = makeNote().make();
     const newNoteText = makeString();
-    noteDetailComponent.note = signal(note);
+    noteDetailComponent.note = note;
     fixture.detectChanges();
 
     const textareaElement = fixture.nativeElement.querySelector('textarea');
     textareaElement.value = newNoteText;
     textareaElement.dispatchEvent(new Event('keyup'));
 
-    expect(noteDetailComponent.note().text).toBe(newNoteText);
+    expect(noteDetailComponent.note.text).toBe(newNoteText);
   });
 
 });

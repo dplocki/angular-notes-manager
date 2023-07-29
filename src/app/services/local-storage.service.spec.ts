@@ -108,7 +108,7 @@ describe('LocalStorageService', () => {
       const storedNotes: Note[] = multiple(makeNote(), 3);
       localStoreSpy.getItem.and.returnValues(JSON.stringify(storedNotes));
 
-      const loadNotes = await lastValueFrom(localStorageService.loadNotes().pipe(toArray()));
+      const loadNotes = await lastValueFrom(localStorageService.loadNotes());
 
       expect(localStoreSpy.getItem).toHaveBeenCalled();
       expect(localStoreSpy.setItem).not.toHaveBeenCalled();

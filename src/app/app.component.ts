@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Note } from "./note";
 import { NoteService } from './services/note.service';
 import { ChangeDetector } from './change-detector';
-import { IntervalService } from './services/interval.service';
 import { BrowserInteractionService } from './services/browser-interaction.service';
 import { BehaviorSubject, Subject, firstValueFrom } from 'rxjs';
 
@@ -22,7 +21,6 @@ export class AppComponent implements OnInit {
 
   constructor(
     private noteService: NoteService,
-    private intervalService: IntervalService,
     private browserInteractionService: BrowserInteractionService
   ) {
     this.notes$ = new BehaviorSubject<Note[]>([]);
