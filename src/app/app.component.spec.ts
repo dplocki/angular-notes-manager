@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { Component, EventEmitter, Input, Output, WritableSignal } from '@angular/core';
@@ -12,6 +12,8 @@ describe('AppComponent', () => {
   const emptyNote = makeNote().setText('').make();
   let noteServiceSpy: jasmine.SpyObj<NoteService>;
   let browserInteractionServiceSpy: jasmine.SpyObj<BrowserInteractionService>;
+  let fixture: ComponentFixture<AppComponent>;
+  let appComponent: AppComponent;
 
   @Component({ selector: 'app-note-detail', template: '' })
   class MockNoteDetailComponent {
@@ -67,6 +69,9 @@ describe('AppComponent', () => {
 
     noteServiceSpy = TestBed.inject(NoteService) as jasmine.SpyObj<NoteService>;
     browserInteractionServiceSpy = TestBed.inject(BrowserInteractionService) as jasmine.SpyObj<BrowserInteractionService>;
+
+    fixture = TestBed.createComponent(AppComponent);
+    appComponent = fixture.componentInstance;
   });
 
   describe('on start', () => {
@@ -75,8 +80,6 @@ describe('AppComponent', () => {
       noteServiceSpy.getNotes.and.returnValue(of([]));
       noteServiceSpy.createNote.and.returnValue(emptyNote);
 
-      const fixture = TestBed.createComponent(AppComponent);
-      const appComponent = fixture.componentInstance;
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -90,8 +93,6 @@ describe('AppComponent', () => {
       noteServiceSpy.getNotes.and.returnValue(of(notes));
       noteServiceSpy.createNote.and.returnValue(emptyNote);
 
-      const fixture = TestBed.createComponent(AppComponent);
-      const appComponent = fixture.componentInstance;
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -109,8 +110,6 @@ describe('AppComponent', () => {
       const selectNote = notes[makeNumber(notes.length - 1, 1)];
       noteServiceSpy.getNotes.and.returnValue(of(notes));
       noteServiceSpy.createNote.and.returnValue(emptyNote);
-      const fixture = TestBed.createComponent(AppComponent);
-      const appComponent = fixture.componentInstance;
       fixture.detectChanges();
 
       appComponent.selectedNoteChange(selectNote);
@@ -127,8 +126,6 @@ describe('AppComponent', () => {
       const notes = multiple(makeNote(), notesLength);
       noteServiceSpy.getNotes.and.returnValue(of(notes));
       noteServiceSpy.createNote.and.returnValue(emptyNote);
-      const fixture = TestBed.createComponent(AppComponent);
-      const appComponent = fixture.componentInstance;
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -145,8 +142,6 @@ describe('AppComponent', () => {
     it('should check reset the save interval', async () => {
       noteServiceSpy.getNotes.and.returnValue(of([]));
       noteServiceSpy.createNote.and.returnValue(emptyNote);
-      const fixture = TestBed.createComponent(AppComponent);
-      const appComponent = fixture.componentInstance;
 
       appComponent.saveNoteButtonClick();
       fixture.detectChanges();
@@ -164,8 +159,6 @@ describe('AppComponent', () => {
       const note = makeNote().make();
       noteServiceSpy.getNotes.and.returnValue(of([]));
       noteServiceSpy.createNote.and.returnValue(emptyNote);
-      const fixture = TestBed.createComponent(AppComponent);
-      const appComponent = fixture.componentInstance;
 
       await appComponent.deleteNote(note);
 
@@ -178,8 +171,6 @@ describe('AppComponent', () => {
       const note = makeNote().make();
       noteServiceSpy.getNotes.and.returnValue(of([]));
       noteServiceSpy.createNote.and.returnValue(emptyNote);
-      const fixture = TestBed.createComponent(AppComponent);
-      const appComponent = fixture.componentInstance;
 
       await appComponent.deleteNote(note);
       fixture.detectChanges();
@@ -197,8 +188,6 @@ describe('AppComponent', () => {
         of(notDeletedNotes)
       );
       noteServiceSpy.createNote.and.returnValue(emptyNote);
-      const fixture = TestBed.createComponent(AppComponent);
-      const appComponent = fixture.componentInstance;
       fixture.detectChanges();
       await fixture.whenStable();
 
