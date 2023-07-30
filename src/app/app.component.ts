@@ -62,7 +62,12 @@ export class AppComponent implements OnInit {
     }
 
     await this.noteService.deleteNote(note);
-    await this.loadNotes();
+
+    const notes = (await firstValueFrom(this.notes$))
+      .filter(n => note.id !== n.id);
+
+    this.notes$.next(notes);
+    this.adjustSelectedNote(notes);
   }
 
   private async loadNotes(): Promise<void> {
@@ -73,6 +78,10 @@ export class AppComponent implements OnInit {
     }
 
     this.notes$.next(notes);
+    this.adjustSelectedNote(notes);
+  }
+
+  private adjustSelectedNote(notes: Note[]): void {
     if (this.selectedNote) {
       const selectedNote = notes.find(n => n.id === this.selectedNote.id);
       if (selectedNote) {
