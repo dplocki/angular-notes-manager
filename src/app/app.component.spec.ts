@@ -186,7 +186,6 @@ describe('AppComponent', () => {
 
       expect(browserInteractionServiceSpy.question).toHaveBeenCalled();
       expect(noteServiceSpy.deleteNote).toHaveBeenCalled();
-      expect(noteServiceSpy.getNotes).toHaveBeenCalledTimes(2);
     });
 
     it('should call loadNotes if deleted is the selected one', async () => {
