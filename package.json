@@ -1,6 +1,6 @@
 {
   "name": "angular-notes-manager",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --poll 500 --disable-host-check",

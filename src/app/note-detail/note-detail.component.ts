@@ -13,5 +13,6 @@ export class NoteDetailComponent {
 
   onKey(event: KeyboardEvent): void {
     this.note.text = (<HTMLInputElement>event.target).value;
+    this.note.isSaved = false;
   }
 }
