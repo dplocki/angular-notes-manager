@@ -1,10 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { Note } from '../note';
 
 @Component({
   selector: 'app-note-title',
-  template: `<ng-container *ngIf="note | noteTitle; else emptyTitle">
-  <a>{{ note | noteTitle }}</a>
+  template: `<ng-container *ngIf="title; else emptyTitle">
+  <a>{{ title }}</a>
 </ng-container>
 <ng-template #emptyTitle>
   <a class="empty">(empty)</a>
@@ -14,6 +13,6 @@ import { Note } from '../note';
 export class NoteTitleComponent {
 
   @Input()
-  note!: Note;
+  title: string | undefined;
 
 }

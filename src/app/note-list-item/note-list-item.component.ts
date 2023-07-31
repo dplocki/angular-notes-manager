@@ -4,7 +4,7 @@ import { Note } from '../note';
 @Component({
   selector: 'app-note-list-item',
   template: `<li [class.selected]="isSelected" tabindex="0">
-  <app-note-title [note]="note" />
+  <app-note-title [title]="note | noteTitle" />
   <app-delete-button (invokeEvent)="deleteNote()" />
 </li>`,
   styleUrls: ['./note-list-item.component.less'],
