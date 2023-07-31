@@ -50,7 +50,7 @@ export class AppComponent implements OnInit {
     const notes = await firstValueFrom(this.notes$);
     const index = notes.findIndex(note => note.id === this.selectedNote.id);
 
-    this.selectedNote = { ...this.selectedNote };
+    this.selectedNote = { ...this.selectedNote, isSaved: true };
     notes[index] = this.selectedNote;
 
     this.notes$.next(notes);

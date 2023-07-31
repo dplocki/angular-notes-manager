@@ -31,7 +31,7 @@ export class NoteService {
   }
 
   createNote(): Note {
-    return new Note('', this.idGeneratorService.getIdForNew());
+    return new Note('', this.idGeneratorService.getIdForNew(), false);
   }
 
   async deleteNote(note: Note): Promise<Note> {
