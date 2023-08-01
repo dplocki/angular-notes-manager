@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Note } from '../note';
 import { LoggerService } from './logger.service';
 import { StoragedNote } from './storaged-note';
-import { Observable, from, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

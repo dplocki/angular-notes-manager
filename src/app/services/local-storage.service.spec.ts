@@ -4,7 +4,7 @@ import { LocalStorageService } from './local-storage.service';
 import { LoggerService } from './logger.service';
 import { Note } from '../note';
 import { makeNote, makeNumber, multiple } from '../shared/testing/generators';
-import { lastValueFrom, toArray } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
 
 describe('LocalStorageService', () => {
   let localStorageService: LocalStorageService;
@@ -82,8 +82,7 @@ describe('LocalStorageService', () => {
   describe('deleteNote', () => {
 
     it('should call the logger and the save the local storage', async () => {
-      const id = makeNumber();
-      const note = makeNote().setId(id).make();
+      const note = makeNote().make();
       const storedNotes: Note[] = [...multiple(makeNote(), 4), note];
       let storage!:string;
       localStoreSpy.getItem.and.returnValues(JSON.stringify(storedNotes));
