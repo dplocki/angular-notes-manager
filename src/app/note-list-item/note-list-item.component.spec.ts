@@ -78,4 +78,24 @@ describe('NoteListItemComponent', () => {
     expect(noteListItemComponent.noteDeleted.emit).toHaveBeenCalledWith(testNote);
   });
 
+  it('should add add the not-saved class if note.isSaved is false', () => {
+    const note = makeNote().setIsSaved(false).make();
+
+    noteListItemComponent.note = note;
+    invokeOnPushChanges(fixture);
+    const listItemElement = fixture.nativeElement.querySelector('li');
+
+    expect(listItemElement.classList.contains('not-saved')).toBeTrue();
+  });
+
+  it('should not add the not-saved class if note.isSaved is true', () => {
+    const note = makeNote().setIsSaved(true).make();
+
+    noteListItemComponent.note = note;
+    invokeOnPushChanges(fixture);
+    const listItemElement = fixture.nativeElement.querySelector('li');
+
+    expect(listItemElement.classList.contains('not-saved')).toBeFalse();
+  });
+
 });

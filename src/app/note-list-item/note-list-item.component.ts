@@ -3,7 +3,7 @@ import { Note } from '../note';
 
 @Component({
   selector: 'app-note-list-item',
-  template: `<li [class.selected]="isSelected" [class.not-saved]="note?.isSaved" tabindex="0">
+  template: `<li [class.selected]="isSelected" [class.not-saved]="!(note?.isSaved)" tabindex="0">
   <app-note-title [title]="note! | noteTitle" />
   <app-delete-button (invokeEvent)="deleteNote()" />
 </li>`,
