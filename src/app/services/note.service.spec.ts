@@ -3,7 +3,7 @@ import { NoteService } from './note.service';
 import { LocalStorageService } from './local-storage.service';
 import { IdGeneratorService } from './id-generator.service';
 import { makeNote, multiple } from '../shared/testing/generators';
-import { from, lastValueFrom, of, toArray } from 'rxjs';
+import { lastValueFrom, of } from 'rxjs';
 
 describe('NoteService', () => {
   const exampleNotes = multiple(makeNote(), 5);
