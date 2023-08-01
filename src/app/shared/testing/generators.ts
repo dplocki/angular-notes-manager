@@ -23,10 +23,12 @@ interface Maker<T> {
 class NoteMaker implements Maker<Note> {
   private textGenerator: () => string;
   private idGenerator: () => number;
+  private isSavedGenerator: () => boolean;
 
   constructor() {
     this.textGenerator = () => makeString();
     this.idGenerator = () => makeNumber();
+    this.isSavedGenerator = () => true;
   }
 
   setTextGenerator(generatorFunction: () => string): NoteMaker {
@@ -49,8 +51,18 @@ class NoteMaker implements Maker<Note> {
     return this;
   }
 
+  setIsSavedGenerator(generatorFunction: () => boolean): NoteMaker {
+    this.isSavedGenerator = generatorFunction;
+    return this;
+  }
+
+  setIsSaved(isSaved: boolean): NoteMaker {
+    this.isSavedGenerator = () => isSaved;
+    return this;
+  }
+
   make(): Note {
-    return new Note(this.textGenerator(), this.idGenerator());
+    return new Note(this.textGenerator(), this.idGenerator(), this.isSavedGenerator());
   }
 }
 

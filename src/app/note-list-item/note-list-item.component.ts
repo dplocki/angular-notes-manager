@@ -3,8 +3,8 @@ import { Note } from '../note';
 
 @Component({
   selector: 'app-note-list-item',
-  template: `<li [class.selected]="isSelected" [class.not-saved]="!note.isSaved" tabindex="0">
-  <app-note-title [title]="note | noteTitle" />
+  template: `<li [class.selected]="isSelected" [class.not-saved]="note?.isSaved" tabindex="0">
+  <app-note-title [title]="note! | noteTitle" />
   <app-delete-button (invokeEvent)="deleteNote()" />
 </li>`,
   styleUrls: ['./note-list-item.component.less'],
@@ -13,7 +13,7 @@ import { Note } from '../note';
 export class NoteListItemComponent {
 
   @Input()
-  note!: Note;
+  note: Note | undefined;
 
   @Input()
   isSelected!: boolean;

@@ -43,6 +43,7 @@ describe('NoteListItemComponent', () => {
   });
 
   it('should create', () => {
+console.log(noteListItemComponent);
     expect(noteListItemComponent).toBeTruthy();
   });
 
