@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoteListItemComponent } from './note-list-item.component';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Note } from '../note';
-import { makeBoolean, makeNote } from '../shared/testing/generators';
+import { newBoolean, newNote } from '../shared/testing/generators';
 import { By } from '@angular/platform-browser';
 import { invokeOnPushChanges } from '../shared/testing/utils';
 import { Pipe, PipeTransform } from '@angular/core';
@@ -47,7 +47,7 @@ describe('NoteListItemComponent', () => {
   });
 
   it('should correctly initialize isSelected', () => {
-    const isSelectedValue = makeBoolean();
+    const isSelectedValue = newBoolean();
 
     noteListItemComponent.isSelected = isSelectedValue;
     invokeOnPushChanges(fixture);
@@ -57,7 +57,7 @@ describe('NoteListItemComponent', () => {
   });
 
   it('should correctly initialize note value', () => {
-    const noteValue = makeNote().make();
+    const noteValue = newNote().make();
 
     noteListItemComponent.note = noteValue;
     invokeOnPushChanges(fixture);
@@ -69,7 +69,7 @@ describe('NoteListItemComponent', () => {
 
   it('should emit noteDeleted event on deleteNote()', () => {
     spyOn(noteListItemComponent.noteDeleted, 'emit');
-    const testNote = makeNote().make();
+    const testNote = newNote().make();
 
     noteListItemComponent.note = testNote;
     fixture.detectChanges();
@@ -79,7 +79,7 @@ describe('NoteListItemComponent', () => {
   });
 
   it('should add add the not-saved class if note.isSaved is false', () => {
-    const note = makeNote().setIsSaved(false).make();
+    const note = newNote().setIsSaved(false).make();
 
     noteListItemComponent.note = note;
     invokeOnPushChanges(fixture);
@@ -89,7 +89,7 @@ describe('NoteListItemComponent', () => {
   });
 
   it('should not add the not-saved class if note.isSaved is true', () => {
-    const note = makeNote().setIsSaved(true).make();
+    const note = newNote().setIsSaved(true).make();
 
     noteListItemComponent.note = note;
     invokeOnPushChanges(fixture);

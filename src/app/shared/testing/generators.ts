@@ -2,17 +2,17 @@ import { Note } from "src/app/note";
 
 const inOptions = 'abcdefghijklmnopqrstuvwxyz0123456789';
 
-export function makeString(length = 10): string {
+export function newString(length = 10): string {
   return [...Array(length).keys()]
     .map(() => inOptions.charAt(Math.floor(Math.random() * inOptions.length)))
     .join('');
 }
 
-export function makeNumber(max = 1024, min = 0): number {
+export function newNumber(max = 1024, min = 0): number {
   return min + Math.floor(Math.random() * max);
 }
 
-export function makeBoolean() {
+export function newBoolean() {
   return Math.floor(Math.random() * 1024) % 2 == 0;
 }
 
@@ -26,8 +26,8 @@ class NoteMaker implements Maker<Note> {
   private isSavedGenerator: () => boolean;
 
   constructor() {
-    this.textGenerator = () => makeString();
-    this.idGenerator = () => makeNumber();
+    this.textGenerator = () => newString();
+    this.idGenerator = () => newNumber();
     this.isSavedGenerator = () => true;
   }
 
@@ -66,7 +66,7 @@ class NoteMaker implements Maker<Note> {
   }
 }
 
-export function makeNote(): NoteMaker {
+export function newNote(): NoteMaker {
   return new NoteMaker();
 }
 

@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoteListComponent } from './note-list.component';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Note } from '../note';
-import { makeNote, multiple } from '../shared/testing/generators';
+import { newNote, multiple } from '../shared/testing/generators';
 import { By } from '@angular/platform-browser';
 import { invokeOnPushChanges } from '../shared/testing/utils';
 
@@ -35,7 +35,7 @@ describe('NoteListComponent', () => {
 
   it('should correctly initialize inputs', () => {
     const selectedIndex = 1;
-    const testNotes = multiple(makeNote(), 5);
+    const testNotes = multiple(newNote(), 5);
     const testSelectedNote = testNotes[selectedIndex];
 
     component.notes = testNotes;
@@ -57,7 +57,7 @@ describe('NoteListComponent', () => {
 
   it('should emit noteSelectionChange on selectNote()', () => {
     spyOn(component.noteSelectionChange, 'emit');
-    const testNote: Note = makeNote().make();
+    const testNote: Note = newNote().make();
 
     component.selectNote(testNote);
     expect(component.noteSelectionChange.emit).toHaveBeenCalledWith(testNote);
@@ -65,7 +65,7 @@ describe('NoteListComponent', () => {
 
   it('should emit noteDeleted on deleteNote()', () => {
     spyOn(component.noteDeleted, 'emit');
-    const testNote: Note = makeNote().make();
+    const testNote: Note = newNote().make();
 
     component.deleteNote(testNote);
     expect(component.noteDeleted.emit).toHaveBeenCalledWith(testNote);

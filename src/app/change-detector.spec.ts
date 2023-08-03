@@ -1,5 +1,5 @@
 import { ChangeDetector } from "./change-detector";
-import { makeNote, makeString } from "./shared/testing/generators";
+import { newNote, newString } from "./shared/testing/generators";
 
 describe('ChangeDetector', () => {
 
@@ -15,7 +15,7 @@ describe('ChangeDetector', () => {
 
     it('should return true if Note text is empty', () => {
       const changeDetector = makeChangeDetector();
-      const note = makeNote().setText('').make();
+      const note = newNote().setText('').make();
 
       changeDetector.setNote(note);
       const result = changeDetector.wasChanged();
@@ -25,8 +25,8 @@ describe('ChangeDetector', () => {
 
     it('should return false if Note text did not changed', () => {
       const changeDetector = makeChangeDetector();
-      const textOfNote = makeString();
-      const note = makeNote().setText(textOfNote).make();
+      const textOfNote = newString();
+      const note = newNote().setText(textOfNote).make();
 
       changeDetector.setNote(note);
       note.text = textOfNote;
@@ -37,10 +37,10 @@ describe('ChangeDetector', () => {
 
     it('should return true if Note text changed', () => {
       const changeDetector = makeChangeDetector();
-      const note = makeNote().make();
+      const note = newNote().make();
 
       changeDetector.setNote(note);
-      note.text += makeString();
+      note.text += newString();
       const result = changeDetector.wasChanged();
 
       expect(result).toBeTrue();

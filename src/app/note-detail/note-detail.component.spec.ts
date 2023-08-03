@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoteDetailComponent } from './note-detail.component';
 import { FormsModule } from '@angular/forms';
-import { makeNote, makeString } from '../shared/testing/generators';
+import { newNote, newString } from '../shared/testing/generators';
 
 describe('NoteDetailComponent', () => {
   let noteDetailComponent: NoteDetailComponent;
@@ -17,7 +17,7 @@ describe('NoteDetailComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(NoteDetailComponent);
     noteDetailComponent = fixture.componentInstance;
-    noteDetailComponent.note = makeNote().make();
+    noteDetailComponent.note = newNote().make();
 
     fixture.detectChanges();
   });
@@ -27,8 +27,8 @@ describe('NoteDetailComponent', () => {
   });
 
   it('should initialize ngModel with the provided note', async () => {
-    const noteContent = makeString();
-    const note = makeNote().setText(noteContent).make();
+    const noteContent = newString();
+    const note = newNote().setText(noteContent).make();
 
     noteDetailComponent.note = note;
     fixture.detectChanges();
@@ -39,8 +39,8 @@ describe('NoteDetailComponent', () => {
   });
 
   it('should update the note text property on keyup', () => {
-    const note = makeNote().make();
-    const newNoteText = makeString();
+    const note = newNote().make();
+    const newNoteText = newString();
     noteDetailComponent.note = note;
     fixture.detectChanges();
 

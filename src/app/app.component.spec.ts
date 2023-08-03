@@ -5,11 +5,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Note } from './note';
 import { NoteService } from './services/note.service';
 import { BrowserInteractionService } from './services/browser-interaction.service';
-import { makeNote, makeNumber, multiple } from './shared/testing/generators';
+import { newNote, newNumber, multiple } from './shared/testing/generators';
 import { firstValueFrom, of } from 'rxjs';
 
 describe('AppComponent', () => {
-  const emptyNote = makeNote().setText('').make();
+  const emptyNote = newNote().setText('').make();
   let noteServiceSpy: jasmine.SpyObj<NoteService>;
   let browserInteractionServiceSpy: jasmine.SpyObj<BrowserInteractionService>;
   let fixture: ComponentFixture<AppComponent>;
@@ -89,7 +89,7 @@ describe('AppComponent', () => {
     });
 
     it('should, if noteService#getNotes return non-empty collection, select first note', async () => {
-      const notes = multiple(makeNote(), makeNumber(7, 2));
+      const notes = multiple(newNote(), newNumber(7, 2));
       noteServiceSpy.getNotes.and.returnValue(of(notes));
       noteServiceSpy.createNote.and.returnValue(emptyNote);
 
@@ -106,8 +106,8 @@ describe('AppComponent', () => {
   describe('selectedNoteChange', () => {
 
     it('should change the selectedNote, when Note is also in notes', async () => {
-      const notes = multiple(makeNote(), makeNumber(7, 2));
-      const selectNote = notes[makeNumber(notes.length - 1, 1)];
+      const notes = multiple(newNote(), newNumber(7, 2));
+      const selectNote = notes[newNumber(notes.length - 1, 1)];
       noteServiceSpy.getNotes.and.returnValue(of(notes));
       noteServiceSpy.createNote.and.returnValue(emptyNote);
       fixture.detectChanges();
@@ -122,8 +122,8 @@ describe('AppComponent', () => {
   describe('addNoteButtonClick', () => {
 
     it('should call the noteService#createNote, and the result be add into notes and selected', async () => {
-      const notesLength = makeNumber(7, 2);
-      const notes = multiple(makeNote(), notesLength);
+      const notesLength = newNumber(7, 2);
+      const notes = multiple(newNote(), notesLength);
       noteServiceSpy.getNotes.and.returnValue(of(notes));
       noteServiceSpy.createNote.and.returnValue(emptyNote);
       fixture.detectChanges();
@@ -156,7 +156,7 @@ describe('AppComponent', () => {
 
     it('should stop after browserInteractionService returning false', async () => {
       browserInteractionServiceSpy.question.and.returnValue(false);
-      const note = makeNote().make();
+      const note = newNote().make();
       noteServiceSpy.getNotes.and.returnValue(of([]));
       noteServiceSpy.createNote.and.returnValue(emptyNote);
 
@@ -168,7 +168,7 @@ describe('AppComponent', () => {
 
     it('should run after browserInteractionService returning true', async () => {
       browserInteractionServiceSpy.question.and.returnValue(true);
-      const note = makeNote().make();
+      const note = newNote().make();
       noteServiceSpy.getNotes.and.returnValue(of([]));
       noteServiceSpy.createNote.and.returnValue(emptyNote);
 
@@ -181,8 +181,8 @@ describe('AppComponent', () => {
 
     it('should call loadNotes if deleted is the selected one', async () => {
       browserInteractionServiceSpy.question.and.returnValue(true);
-      const note = makeNote().make();
-      const notDeletedNotes = multiple(makeNote(), makeNumber(2, 5));
+      const note = newNote().make();
+      const notDeletedNotes = multiple(newNote(), newNumber(2, 5));
       noteServiceSpy.getNotes.and.returnValues(
         of([...notDeletedNotes, note]),
         of(notDeletedNotes)

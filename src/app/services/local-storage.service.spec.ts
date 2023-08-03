@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { LocalStorageService } from './local-storage.service';
 import { LoggerService } from './logger.service';
 import { Note } from '../note';
-import { makeNote, makeNumber, multiple } from '../shared/testing/generators';
+import { newNote, newNumber, multiple } from '../shared/testing/generators';
 import { lastValueFrom } from 'rxjs';
 
 describe('LocalStorageService', () => {
@@ -36,7 +36,7 @@ describe('LocalStorageService', () => {
   describe('saveNotes', () => {
 
     it('should call the logger and the save the local storage', async () => {
-      const notes: Note[] = multiple(makeNote(), 4);
+      const notes: Note[] = multiple(newNote(), 4);
       const results = await localStorageService.saveNotes(notes);
 
       expect(results).toEqual(notes);
@@ -51,7 +51,7 @@ describe('LocalStorageService', () => {
   describe('saveNote', () => {
 
     it('should call the logger and the save the local storage', async () => {
-      const note = makeNote().make();
+      const note = newNote().make();
       const results = await localStorageService.saveNote(note);
 
       expect(results).toEqual(note);
@@ -62,14 +62,14 @@ describe('LocalStorageService', () => {
     });
 
     it('should update the note with stored in local storage', async () => {
-      const id = makeNumber();
-      const note = makeNote().setId(id).make();
-      const storedNotes: Note[] = [...multiple(makeNote(), 4), note];
+      const id = newNumber();
+      const note = newNote().setId(id).make();
+      const storedNotes: Note[] = [...multiple(newNote(), 4), note];
       let storage!:string;
       localStoreSpy.getItem.and.returnValues(JSON.stringify(storedNotes));
       localStoreSpy.setItem.and.callFake((_: string, value: string): void => { storage = value })
 
-      const updatedNote = makeNote().setId(id).make();
+      const updatedNote = newNote().setId(id).make();
       await localStorageService.saveNote(updatedNote);
 
       expect(localStoreSpy.setItem).toHaveBeenCalled();
@@ -82,8 +82,8 @@ describe('LocalStorageService', () => {
   describe('deleteNote', () => {
 
     it('should call the logger and the save the local storage', async () => {
-      const note = makeNote().make();
-      const storedNotes: Note[] = [...multiple(makeNote(), 4), note];
+      const note = newNote().make();
+      const storedNotes: Note[] = [...multiple(newNote(), 4), note];
       let storage!:string;
       localStoreSpy.getItem.and.returnValues(JSON.stringify(storedNotes));
       localStoreSpy.setItem.and.callFake((_: string, value: string): void => { storage = value })
@@ -104,7 +104,7 @@ describe('LocalStorageService', () => {
   describe('loadNotes', () => {
 
     it('should call the logger and load stored Notes', async () => {
-      const storedNotes: Note[] = multiple(makeNote(), 3);
+      const storedNotes: Note[] = multiple(newNote(), 3);
       localStoreSpy.getItem.and.returnValues(JSON.stringify(storedNotes));
 
       const loadNotes = await lastValueFrom(localStorageService.loadNotes());
