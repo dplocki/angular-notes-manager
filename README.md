@@ -36,6 +36,14 @@ Turns out it is not so easy. There are many tutorial how to run Karma inside the
 
 Luckily I found the solution: [How to run Karma tests from docker container? - the third replay](https://stackoverflow.com/a/72306681). Based on that I have adjusted my [Dockerfile](./Dockerfile).
 
+### Running test during CI
+
+Unfortunately running the unit test during gateway checking it was also not so easy. Finally the following command run properly:
+
+```sh
+ng test --browsers=ChromeHeadless --no-watch --no-progress
+```
+
 ### Visual Code estensions
 
 * [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
