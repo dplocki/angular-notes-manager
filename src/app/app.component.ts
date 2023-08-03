@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Note } from "./note";
 import { NoteService } from './services/note.service';
-import { ChangeDetector } from './change-detector';
 import { BrowserInteractionService } from './services/browser-interaction.service';
 import { BehaviorSubject, Subject, firstValueFrom } from 'rxjs';
 
@@ -17,7 +16,6 @@ export class AppComponent implements OnInit {
   selectedNote!: Note;
   notes$: Subject<Note[]>;
   isSavingInProgress = false;
-  changeDetector: ChangeDetector = new ChangeDetector();
 
   constructor(
     private noteService: NoteService,

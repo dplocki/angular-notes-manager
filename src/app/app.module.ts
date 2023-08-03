@@ -11,6 +11,7 @@ import { LoggerService } from './services/logger.service';
 import { NoteListItemComponent } from './note-list-item/note-list-item.component';
 import { NoteTitleComponent } from './note-title/note-title.component';
 import { DeleteButtonComponent, NewButtonComponent, SaveButtonComponent } from './base-button/base-button.component';
+import { ChangeDetector } from './change-detector';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,10 @@ import { DeleteButtonComponent, NewButtonComponent, SaveButtonComponent } from '
     FormsModule
   ],
   providers: [
-    { provide: LoggerService, useClass: SilenceLoggerService }
+    { provide: LoggerService, useClass: SilenceLoggerService },
+    { provide: ChangeDetector,
+      useFactory: () => new ChangeDetector()
+    }
   ],
   bootstrap: [AppComponent]
 })
