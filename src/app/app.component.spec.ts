@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
-import { Component, EventEmitter, Input, Output, WritableSignal } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Note } from './note';
 import { NoteService } from './services/note.service';
 import { BrowserInteractionService } from './services/browser-interaction.service';
@@ -17,7 +17,7 @@ describe('AppComponent', () => {
 
   @Component({ selector: 'app-note-detail', template: '' })
   class MockNoteDetailComponent {
-    @Input() note!: WritableSignal<Note>;
+    @Input() note!: Note;
   }
 
   @Component({ selector: 'app-note-list', template: '' })
