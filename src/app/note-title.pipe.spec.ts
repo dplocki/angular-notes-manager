@@ -42,5 +42,7 @@ describe('NoteTitlePipe', () => {
 
       callTransform(`${part1}\n${part2}`, `${part1}${part2}`);
     });
+
   });
+
 });

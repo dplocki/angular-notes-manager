@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { IdGeneratorService } from './id-generator.service';
 
 describe('IdGeneratorService', () => {
+
   let idGeneratorService: IdGeneratorService;
 
   beforeEach(() => {
@@ -23,4 +24,5 @@ describe('IdGeneratorService', () => {
 
     expect(idGeneratorService.getIdForNew()).toBe(testNumber + 1);
   });
+
 });

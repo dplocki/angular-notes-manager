@@ -6,6 +6,7 @@ import { newNote, multiple } from '../shared/testing/generators';
 import { lastValueFrom, of } from 'rxjs';
 
 describe('NoteService', () => {
+
   const exampleNotes = multiple(newNote(), 5);
 
   let noteService: NoteService;

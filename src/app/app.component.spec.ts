@@ -9,6 +9,7 @@ import { newNote, newNumber, multiple } from './shared/testing/generators';
 import { firstValueFrom, of } from 'rxjs';
 
 describe('AppComponent', () => {
+
   const emptyNote = newNote().setText('').make();
   let noteServiceSpy: jasmine.SpyObj<NoteService>;
   let browserInteractionServiceSpy: jasmine.SpyObj<BrowserInteractionService>;
@@ -201,4 +202,5 @@ describe('AppComponent', () => {
     });
 
   });
+
 });

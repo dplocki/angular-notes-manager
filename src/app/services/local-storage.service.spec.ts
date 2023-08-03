@@ -7,6 +7,7 @@ import { newNote, newNumber, multiple } from '../shared/testing/generators';
 import { lastValueFrom } from 'rxjs';
 
 describe('LocalStorageService', () => {
+
   let localStorageService: LocalStorageService;
   let loggerServiceSpy: jasmine.SpyObj<LoggerService>;
   let localStoreSpy: jasmine.SpyObj<Storage>;

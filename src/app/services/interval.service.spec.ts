@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { IntervalService } from './interval.service';
 
 describe('IntervalService', () => {
+
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   const emptyFunction = (): void => {};
   let intervalService: IntervalService;
@@ -39,4 +40,5 @@ describe('IntervalService', () => {
     expect(spySetInterval).toHaveBeenCalledWith(emptyFunction, givenTime);
     expect(spyClearInterval).toHaveBeenCalledWith(intervalTimerValue);
   });
+
 });
