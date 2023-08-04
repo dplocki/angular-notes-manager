@@ -24,7 +24,7 @@ abstract class BaseButtonComponent {
 @Component({
   selector: 'app-delete-button',
   template: buttonTemplate,
-  styleUrls: ['./base-button.component.less']
+  styles: []
 })
 export class DeleteButtonComponent extends BaseButtonComponent {
 
@@ -38,7 +38,7 @@ export class DeleteButtonComponent extends BaseButtonComponent {
 @Component({
   selector: 'app-new-button',
   template: buttonTemplate,
-  styleUrls: ['./base-button.component.less']
+  styles: []
 })
 export class NewButtonComponent extends BaseButtonComponent {
 
