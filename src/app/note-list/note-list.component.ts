@@ -11,7 +11,7 @@ import { Note } from '../note';
                  (keypress)="selectNote(note)"
                  (noteDeleted)="deleteNote(note)" />
 </ol>`,
-  styleUrls: ['./note-list.component.less'],
+  styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NoteListComponent {

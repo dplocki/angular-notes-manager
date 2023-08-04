@@ -5,7 +5,7 @@ const buttonTemplate = '<span>[<a (click)="invoke()" (keypress)="invoke()" tabin
 @Component({
   selector: 'app-button',
   template: buttonTemplate,
-  styleUrls: ['./base-button.component.less']
+  styles: []
 })
 abstract class BaseButtonComponent {
 
