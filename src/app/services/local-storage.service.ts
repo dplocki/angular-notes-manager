@@ -3,6 +3,7 @@ import { Note } from '../note';
 import { LoggerService } from './logger.service';
 import { StoragedNote } from './storaged-note';
 import { Observable, of } from 'rxjs';
+import { exhaustMap, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,69 +16,56 @@ export class LocalStorageService {
   ) {
   }
 
-  saveNotes(notes: Note[]): Promise<Note[]> {
-    return new Promise<Note[]>((resolve): void => {
-      this.loggerService.log('Save notes: ', notes);
+  saveNotes(notes: Note[]): Observable<void> {
+    this.loggerService.log('Save notes: ', notes);
 
-      this.saveRawDataIntoLocalStorage(notes);
-      resolve(notes);
-    });
+    return this.saveRawDataIntoLocalStorage(notes)
   }
 
-  saveNote(note: Note): Promise<Note> {
-    return new Promise<Note>((resolve) => {
-      this.loggerService.log('Save note: ', note);
+  saveNote(note: Note): Observable<void> {
+    this.loggerService.log('Save note: ', note);
 
-      const rawData = this.loadRawDataFromLocalStorage();
-      const rawNote = rawData.find((x: StoragedNote) => x.id == note.id);
-
-      if (rawNote) {
-        rawNote.text = note.text;
-      } else {
-        rawData.push(note);
-      }
-
-      this.saveRawDataIntoLocalStorage(rawData);
-
-      resolve(note);
-    });
+    return this.loadRawDataFromLocalStorage()
+      .pipe(
+        map(rawData => rawData.map(rawDatum => (note.id === rawDatum.id) ? { ...rawDatum, text: note.text } : rawDatum)),
+        exhaustMap(rawData => this.saveRawDataIntoLocalStorage(rawData))
+      );
   }
 
-  deleteNote(note: Note): Promise<Note> {
-    return new Promise<Note>((resolve) => {
-      this.loggerService.log('Delete note: ', note);
+  deleteNote(note: Note): Observable<void> {
+    this.loggerService.log('Delete note: ', note);
 
-      const allNotes = this.loadRawDataFromLocalStorage();
-      const noteWithoutOne = allNotes.filter((x: StoragedNote) => x.id != note.id);
-
-      this.saveRawDataIntoLocalStorage(noteWithoutOne);
-
-      resolve(note);
-    });
+    return this.loadRawDataFromLocalStorage()
+      .pipe(
+        map((storageNotes: StoragedNote[]) => storageNotes.filter((x: StoragedNote) => x.id != note.id)),
+        exhaustMap(storageNotes => this.saveRawDataIntoLocalStorage(storageNotes))
+      );
   }
 
   loadNotes(): Observable<Note[]> {
     this.loggerService.log('Load notes');
 
-    const notes = this
+    return this
       .loadRawDataFromLocalStorage()
-      .map((r: StoragedNote) => new Note(r.text, r.id));
-
-    return of(notes);
+      .pipe(map((storagedNotes: StoragedNote[]) => storagedNotes.map(storagedNote => new Note(storagedNote.text, storagedNote.id))));
   }
 
-  private loadRawDataFromLocalStorage(): StoragedNote[] {
+  private saveRawDataIntoLocalStorage(rawNotes: StoragedNote[]): Observable<void> {
+    return new Observable<void>((subscriber) => {
+      const rawData = JSON.stringify(rawNotes);
+      localStorage.setItem(LocalStorageService.LOCAL_STORAGE_KEY, rawData);
+      subscriber.next();
+      subscriber.complete();
+    });
+  }
+
+  private loadRawDataFromLocalStorage(): Observable<StoragedNote[]> {
     const rawData = localStorage.getItem(LocalStorageService.LOCAL_STORAGE_KEY)
     if (!rawData) {
-      return [];
+      return of([]);
     }
 
-    return JSON.parse(rawData);
+    return of(JSON.parse(rawData));
   }
 
-  private saveRawDataIntoLocalStorage(rawNotes: StoragedNote[]) {
-    const rawData = JSON.stringify(rawNotes);
-
-    localStorage.setItem(LocalStorageService.LOCAL_STORAGE_KEY, rawData);
-  }
 }
