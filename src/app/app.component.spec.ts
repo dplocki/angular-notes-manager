@@ -152,7 +152,7 @@ describe('AppComponent', () => {
       const notesLength = newNumber(7, 2);
       const notes = multiple(newNote(), notesLength);
       noteServiceSpy.getNotes.and.returnValue(of(notes));
-      noteServiceSpy.createNote.and.returnValue(emptyNote);
+      noteServiceSpy.createNote.and.returnValue(of(emptyNote));
       fixture.detectChanges();
       await fixture.whenStable();
 
