@@ -75,52 +75,7 @@ describe('AppComponent', () => {
     appComponent = fixture.componentInstance;
   });
 
-  // describe('on start', () => {
-
-  //   it('should, if noteService#getNotes return empty collection, calls noteService#createNote', async () => {
-  //     noteServiceSpy.getNotes.and.returnValue(of([]));
-  //     noteServiceSpy.createNote.and.returnValue(emptyNote);
-
-  //     fixture.detectChanges();
-  //     await fixture.whenStable();
-
-  //     expect(appComponent).toBeTruthy();
-  //     expect(noteServiceSpy.createNote).toHaveBeenCalled();
-  //     expect(noteServiceSpy.getNotes).toHaveBeenCalled();
-  //   });
-
-  //   it('should, if noteService#getNotes return non-empty collection, select first note', async () => {
-  //     const notes = multiple(newNote(), newNumber(7, 2));
-  //     noteServiceSpy.getNotes.and.returnValue(of(notes));
-  //     noteServiceSpy.createNote.and.returnValue(emptyNote);
-
-  //     fixture.detectChanges();
-  //     await fixture.whenStable();
-
-  //     expect(appComponent).toBeTruthy();
-  //     expect(noteServiceSpy.getNotes).toHaveBeenCalled();
-  //     expect(appComponent.selectedNote).toBe(notes[0])
-  //   });
-
-  // });
-
-  describe('selectedNoteChange', () => {
-
-    it('should change the selectedNote, when Note is also in notes', async () => {
-      const notes = multiple(newNote(), newNumber(7, 2));
-      const selectNote = notes[newNumber(notes.length - 1, 1)];
-      noteServiceSpy.getNotes.and.returnValue(of(notes));
-      //noteServiceSpy.createNote.and.returnValue(emptyNote);
-      fixture.detectChanges();
-
-      appComponent.selectedNoteChange(selectNote);
-
-      expect(appComponent.selectedNote).toBe(selectNote);
-    });
-
-  });
-
-  describe('loadNotes', () => {
+  describe('on start', () => {
 
     it('should return the result of noteService#getNotes() if the collection is not empty', (done) => {
       const loadedNotes = multiple(newNote(), newNumber(7, 2));
@@ -129,6 +84,7 @@ describe('AppComponent', () => {
 
       appComponent.notes$.subscribe(notes => {
         expect(notes).toEqual(loadedNotes);
+        expect(appComponent.selectedNote).toBe(notes[0])
         done();
       });
     });
@@ -140,8 +96,24 @@ describe('AppComponent', () => {
 
       appComponent.notes$.subscribe(notes => {
         expect(notes).toEqual([emptyNote]);
+        expect(appComponent.selectedNote).toBe(notes[0])
         done();
       });
+    });
+
+  });
+
+  describe('selectedNoteChange', () => {
+
+    it('should change the selectedNote, when Note is also in notes', () => {
+      const notes = multiple(newNote(), newNumber(7, 2));
+      const selectNote = notes[newNumber(notes.length - 1, 1)];
+      noteServiceSpy.getNotes.and.returnValue(of(notes));
+      fixture.detectChanges();
+
+      appComponent.selectedNoteChange(selectNote);
+
+      expect(appComponent.selectedNote).toBe(selectNote);
     });
 
   });
@@ -164,20 +136,20 @@ describe('AppComponent', () => {
 
   });
 
-  // describe('saveNoteButtonClick', () => {
+  describe('saveNoteButtonClick', () => {
 
-  //   it('should check reset the save interval', async () => {
-  //     noteServiceSpy.getNotes.and.returnValue(of([]));
-  //     noteServiceSpy.createNote.and.returnValue(emptyNote);
+    it('should check reset the save interval', async () => {
+      noteServiceSpy.getNotes.and.returnValue(of([]));
+      noteServiceSpy.createNote.and.returnValue(of(emptyNote));
 
-  //     appComponent.saveNoteButtonClick();
-  //     fixture.detectChanges();
-  //     await fixture.whenStable();
+      appComponent.saveNoteButtonClick();
+      fixture.detectChanges();
+      await fixture.whenStable();
 
-  //     expect(noteServiceSpy.saveNote).toHaveBeenCalled();
-  //   });
+      expect(noteServiceSpy.saveNote).toHaveBeenCalled();
+    });
 
-  // });
+  });
 
   // describe('deleteNote', () => {
 
