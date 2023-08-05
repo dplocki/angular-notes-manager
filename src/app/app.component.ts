@@ -46,17 +46,14 @@ export class AppComponent implements OnInit {
   }
 
   saveNoteButtonClick(): void {
-    zip(
-      this.notes$,
-      this.noteService.saveNote(this.selectedNote)
-    ).subscribe((zipped: [Note[], void]) => {
-      const notes = zipped[0];
-
-      const index = notes.findIndex(note => note.id === this.selectedNote.id);
-      this.selectedNote = { ...this.selectedNote, isSaved: true };
-      notes[index] = this.selectedNote;
-      this.notes$.next(notes);
-    });
+    this.noteService.saveNote(this.selectedNote)
+      .pipe(switchMap(() => this.notes$))
+      .subscribe(notes => {
+        const index = notes.findIndex(note => note.id === this.selectedNote.id);
+        this.selectedNote = { ...this.selectedNote, isSaved: true };
+        notes[index] = this.selectedNote;
+        this.notes$.next(notes);
+      });
   }
 
   deleteNote(note: Note): void {
