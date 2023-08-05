@@ -141,6 +141,7 @@ describe('AppComponent', () => {
     it('should check reset the save interval', async () => {
       noteServiceSpy.getNotes.and.returnValue(of([]));
       noteServiceSpy.createNote.and.returnValue(of(emptyNote));
+      noteServiceSpy.saveNote.and.returnValue(of());
 
       appComponent.saveNoteButtonClick();
       fixture.detectChanges();

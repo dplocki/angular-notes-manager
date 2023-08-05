@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
     this.selectedNote = note;
   }
 
-  addNoteButtonClick() {
+  addNoteButtonClick(): void {
     zip(
       this.notes$,
       this.noteService.createNote()
@@ -45,16 +45,18 @@ export class AppComponent implements OnInit {
     });
   }
 
-  async saveNoteButtonClick(): Promise<void> {
-    await this.noteService.saveNote(this.selectedNote);
+  saveNoteButtonClick(): void {
+    zip(
+      this.notes$,
+      this.noteService.saveNote(this.selectedNote)
+    ).subscribe((zipped: [Note[], void]) => {
+      const notes = zipped[0];
 
-    const notes = await firstValueFrom(this.notes$);
-    const index = notes.findIndex(note => note.id === this.selectedNote.id);
-
-    this.selectedNote = { ...this.selectedNote, isSaved: true };
-    notes[index] = this.selectedNote;
-
-    this.notes$.next(notes);
+      const index = notes.findIndex(note => note.id === this.selectedNote.id);
+      this.selectedNote = { ...this.selectedNote, isSaved: true };
+      notes[index] = this.selectedNote;
+      this.notes$.next(notes);
+    });
   }
 
   async deleteNote(note: Note): Promise<void> {
