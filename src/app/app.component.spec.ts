@@ -138,7 +138,7 @@ describe('AppComponent', () => {
 
   describe('saveNoteButtonClick', () => {
 
-    it('should check reset the save interval', async () => {
+    it('should call noteService#saveNote', async () => {
       noteServiceSpy.getNotes.and.returnValue(of([]));
       noteServiceSpy.createNote.and.returnValue(of(emptyNote));
       noteServiceSpy.saveNote.and.returnValue(of());
@@ -154,26 +154,26 @@ describe('AppComponent', () => {
 
   describe('deleteNote', () => {
 
-    it('should stop after browserInteractionService returning false', async () => {
+    it('should stop after browserInteractionService returning false', () => {
       browserInteractionServiceSpy.question.and.returnValue(false);
       const note = newNote().make();
       noteServiceSpy.getNotes.and.returnValue(of([]));
       noteServiceSpy.createNote.and.returnValue(of(emptyNote));
 
-      await appComponent.deleteNote(note);
+      appComponent.deleteNote(note);
 
       expect(browserInteractionServiceSpy.question).toHaveBeenCalled();
       expect(noteServiceSpy.deleteNote).not.toHaveBeenCalled();
     });
 
-    it('should run after browserInteractionService returning true', async () => {
+    it('should run after browserInteractionService returning true', () => {
       browserInteractionServiceSpy.question.and.returnValue(true);
       const note = newNote().make();
       noteServiceSpy.getNotes.and.returnValue(of([]));
       noteServiceSpy.createNote.and.returnValue(of(emptyNote));
       noteServiceSpy.deleteNote.and.returnValue(of());
 
-      await appComponent.deleteNote(note);
+      appComponent.deleteNote(note);
       fixture.detectChanges();
 
       expect(browserInteractionServiceSpy.question).toHaveBeenCalled();
@@ -191,7 +191,7 @@ describe('AppComponent', () => {
       fixture.detectChanges();
       await fixture.whenStable();
 
-      await appComponent.deleteNote(note);
+      appComponent.deleteNote(note);
       fixture.detectChanges();
 
       expect(browserInteractionServiceSpy.question).toHaveBeenCalled();
