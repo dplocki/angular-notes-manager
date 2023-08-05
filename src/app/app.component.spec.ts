@@ -152,54 +152,53 @@ describe('AppComponent', () => {
 
   });
 
-  // describe('deleteNote', () => {
+  describe('deleteNote', () => {
 
-  //   it('should stop after browserInteractionService returning false', async () => {
-  //     browserInteractionServiceSpy.question.and.returnValue(false);
-  //     const note = newNote().make();
-  //     noteServiceSpy.getNotes.and.returnValue(of([]));
-  //     noteServiceSpy.createNote.and.returnValue(emptyNote);
+    it('should stop after browserInteractionService returning false', async () => {
+      browserInteractionServiceSpy.question.and.returnValue(false);
+      const note = newNote().make();
+      noteServiceSpy.getNotes.and.returnValue(of([]));
+      noteServiceSpy.createNote.and.returnValue(of(emptyNote));
 
-  //     await appComponent.deleteNote(note);
+      await appComponent.deleteNote(note);
 
-  //     expect(browserInteractionServiceSpy.question).toHaveBeenCalled();
-  //     expect(noteServiceSpy.deleteNote).not.toHaveBeenCalled();
-  //   });
+      expect(browserInteractionServiceSpy.question).toHaveBeenCalled();
+      expect(noteServiceSpy.deleteNote).not.toHaveBeenCalled();
+    });
 
-  //   it('should run after browserInteractionService returning true', async () => {
-  //     browserInteractionServiceSpy.question.and.returnValue(true);
-  //     const note = newNote().make();
-  //     noteServiceSpy.getNotes.and.returnValue(of([]));
-  //     noteServiceSpy.createNote.and.returnValue(emptyNote);
+    it('should run after browserInteractionService returning true', async () => {
+      browserInteractionServiceSpy.question.and.returnValue(true);
+      const note = newNote().make();
+      noteServiceSpy.getNotes.and.returnValue(of([]));
+      noteServiceSpy.createNote.and.returnValue(of(emptyNote));
+      noteServiceSpy.deleteNote.and.returnValue(of());
 
-  //     await appComponent.deleteNote(note);
-  //     fixture.detectChanges();
+      await appComponent.deleteNote(note);
+      fixture.detectChanges();
 
-  //     expect(browserInteractionServiceSpy.question).toHaveBeenCalled();
-  //     expect(noteServiceSpy.deleteNote).toHaveBeenCalled();
-  //   });
+      expect(browserInteractionServiceSpy.question).toHaveBeenCalled();
+      expect(noteServiceSpy.deleteNote).toHaveBeenCalled();
+    });
 
-  //   it('should call loadNotes if deleted is the selected one', async () => {
-  //     browserInteractionServiceSpy.question.and.returnValue(true);
-  //     const note = newNote().make();
-  //     const notDeletedNotes = multiple(newNote(), newNumber(2, 5));
-  //     noteServiceSpy.getNotes.and.returnValues(
-  //       of([...notDeletedNotes, note]),
-  //       of(notDeletedNotes)
-  //     );
-  //     noteServiceSpy.createNote.and.returnValue(emptyNote);
-  //     fixture.detectChanges();
-  //     await fixture.whenStable();
+    it('should select first element if deleted is the selected one', async () => {
+      browserInteractionServiceSpy.question.and.returnValue(true);
+      const note = newNote().make();
+      const notDeletedNotes = multiple(newNote(), newNumber(2, 5));
+      const firstOnList = notDeletedNotes[0];
+      noteServiceSpy.getNotes.and.returnValues(of([...notDeletedNotes, note]));
+      noteServiceSpy.createNote.and.returnValue(of(emptyNote));
+      noteServiceSpy.deleteNote.and.returnValue(of());
+      fixture.detectChanges();
+      await fixture.whenStable();
 
-  //     await appComponent.deleteNote(note);
-  //     fixture.detectChanges();
+      await appComponent.deleteNote(note);
+      fixture.detectChanges();
 
-  //     expect(browserInteractionServiceSpy.question).toHaveBeenCalled();
-  //     expect(noteServiceSpy.deleteNote).toHaveBeenCalled();
-  //     expect(appComponent.selectedNote).toBe(notDeletedNotes[0]);
-  //     expect(await firstValueFrom(appComponent.notes$)).toEqual(notDeletedNotes);
-  //   });
+      expect(browserInteractionServiceSpy.question).toHaveBeenCalled();
+      expect(noteServiceSpy.deleteNote).toHaveBeenCalled();
+      expect(appComponent.selectedNote).toBe(firstOnList);
+    });
 
-  // });
+  });
 
 });

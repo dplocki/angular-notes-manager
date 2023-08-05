@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Note } from "./note";
 import { NoteService } from './services/note.service';
 import { BrowserInteractionService } from './services/browser-interaction.service';
-import { BehaviorSubject, Subject, concatMap, firstValueFrom, map, of, switchMap, take, zip } from 'rxjs';
+import { BehaviorSubject, Subject, concatMap, firstValueFrom, map, of, switchAll, switchMap, take, zip } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -59,18 +59,19 @@ export class AppComponent implements OnInit {
     });
   }
 
-  async deleteNote(note: Note): Promise<void> {
-    // if (!this.browserInteractionService.question('Do you realy wish to delete the note?')) {
-    //   return;
-    // }
+  deleteNote(note: Note): void {
+    if (!this.browserInteractionService.question('Do you realy wish to delete the note?')) {
+      return;
+    }
 
-    // await this.noteService.deleteNote(note);
+    this.noteService.deleteNote(note)
+      .pipe(switchMap(() => this.notes$))
+      .subscribe(notes => {
+        const localNotes = notes.filter(n => note.id !== n.id);
 
-    // const notes = (await firstValueFrom(this.notes$))
-    //   .filter(n => note.id !== n.id);
-
-    // this.notes$.next(notes);
-    // this.adjustSelectedNote(notes);
+        this.notes$.next(localNotes);
+        this.adjustSelectedNote(localNotes);
+      });
   }
 
   private async loadNotes(): Promise<void> {
