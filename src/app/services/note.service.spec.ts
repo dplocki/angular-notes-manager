@@ -3,7 +3,7 @@ import { NoteService } from './note.service';
 import { LocalStorageService } from './local-storage.service';
 import { IdGeneratorService } from './id-generator.service';
 import { newNote, multiple } from '../shared/testing/generators';
-import { lastValueFrom, of } from 'rxjs';
+import { EMPTY, empty, of } from 'rxjs';
 
 describe('NoteService', () => {
 
@@ -39,63 +39,72 @@ describe('NoteService', () => {
     noteService = TestBed.inject(NoteService);
     storageServiceSpy = TestBed.inject(LocalStorageService) as jasmine.SpyObj<LocalStorageService>;
     idGeneratorServiceSpy = TestBed.inject(IdGeneratorService) as jasmine.SpyObj<IdGeneratorService>;
+
+    storageServiceSpy.deleteNote.and.returnValue(of(void 0));
+    storageServiceSpy.saveNote.and.returnValue(of(void 0));
+    storageServiceSpy.saveNotes.and.returnValue(of(void 0));
   });
 
   describe('getNotes', () => {
 
-    it('getNotes should return stored notes and checked their ids', async () => {
+    it('getNotes should return stored notes and checked their ids', (done) => {
       storageServiceSpy.loadNotes.and.returnValue(of(exampleNotes));
       idGeneratorServiceSpy.checkNumber.and.returnValues();
 
-      const notes = await lastValueFrom(noteService.getNotes());
-
-      expect(notes).toEqual(exampleNotes);
-      expect(idGeneratorServiceSpy.checkNumber).toHaveBeenCalledTimes(exampleNotes.length);
+      noteService.getNotes().subscribe(notes => {
+        expect(notes).toEqual(exampleNotes);
+        expect(idGeneratorServiceSpy.checkNumber).toHaveBeenCalledTimes(exampleNotes.length);
+        done();
+      });
     });
 
   });
 
   describe('saveNote', () => {
 
-    it('should be delegate to storageService', async () => {
+    it('should be delegate to storageService', (done) => {
       const exampleNote = newNote().make();
 
-      await noteService.saveNote(exampleNote);
-
-      expect(storageServiceSpy.saveNote).toHaveBeenCalled();
+      noteService.saveNote(exampleNote).subscribe(() => {
+        expect(storageServiceSpy.saveNote).toHaveBeenCalled();
+        done();
+      });
     });
 
   });
 
   describe('saveNotes', () => {
 
-    it('should be delegate to storageService', async () => {
-      await noteService.saveNotes(exampleNotes);
-
-      expect(storageServiceSpy.saveNotes).toHaveBeenCalled();
+    it('should be delegate to storageService', (done) => {
+      noteService.saveNotes(exampleNotes).subscribe(() => {
+        expect(storageServiceSpy.saveNotes).toHaveBeenCalled();
+        done();
+      })
     });
 
   });
 
   describe('createNote', () => {
 
-    it('should be delegate to storageService', () => {
-      const note = noteService.createNote();
-
-      expect(note.text).toBe('');
-      expect(idGeneratorServiceSpy.getIdForNew).toHaveBeenCalled();
+    it('should be delegate to storageService', (done) => {
+      noteService.createNote().subscribe(note => {
+        expect(note.text).toBe('');
+        expect(idGeneratorServiceSpy.getIdForNew).toHaveBeenCalled();
+        done();
+      });
     });
 
   });
 
   describe('deleteNote', () => {
 
-    it('should be delegate to storageService', async () => {
+    it('should be delegate to storageService', (done) => {
       const exampleNote = newNote().make();
 
-      await noteService.deleteNote(exampleNote);
-
-      expect(storageServiceSpy.deleteNote).toHaveBeenCalled();
+      noteService.deleteNote(exampleNote).subscribe(() => {
+        expect(storageServiceSpy.deleteNote).toHaveBeenCalled();
+        done();
+      });
     });
 
   });
