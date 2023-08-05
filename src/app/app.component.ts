@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Note } from "./note";
 import { NoteService } from './services/note.service';
 import { BrowserInteractionService } from './services/browser-interaction.service';
-import { BehaviorSubject, Subject, firstValueFrom } from 'rxjs';
+import { BehaviorSubject, Subject, concatMap, firstValueFrom, map, of, switchMap, take } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -32,14 +32,14 @@ export class AppComponent implements OnInit {
     this.selectedNote = note;
   }
 
-  async addNoteButtonClick(): Promise<void> {
-    const note = this.noteService.createNote();
-    const notes = await firstValueFrom(this.notes$);
+  addNoteButtonClick() {
+    this.noteService.createNote().subscribe(note => {
+      const notes = await firstValueFrom(this.notes$);
 
-    notes.push(note);
-
-    this.notes$.next(notes);
-    this.selectedNote = note;
+      notes.push(note);
+      this.notes$.next(notes);
+      this.selectedNote = note;
+    });
   }
 
   async saveNoteButtonClick(): Promise<void> {
@@ -55,28 +55,35 @@ export class AppComponent implements OnInit {
   }
 
   async deleteNote(note: Note): Promise<void> {
-    if (!this.browserInteractionService.question('Do you realy wish to delete the note?')) {
-      return;
-    }
+    // if (!this.browserInteractionService.question('Do you realy wish to delete the note?')) {
+    //   return;
+    // }
 
-    await this.noteService.deleteNote(note);
+    // await this.noteService.deleteNote(note);
 
-    const notes = (await firstValueFrom(this.notes$))
-      .filter(n => note.id !== n.id);
+    // const notes = (await firstValueFrom(this.notes$))
+    //   .filter(n => note.id !== n.id);
 
-    this.notes$.next(notes);
-    this.adjustSelectedNote(notes);
+    // this.notes$.next(notes);
+    // this.adjustSelectedNote(notes);
   }
 
   private async loadNotes(): Promise<void> {
-    const notes = await firstValueFrom(this.noteService.getNotes());
-
-    if (notes.length === 0) {
-      notes.push(this.noteService.createNote());
-    }
-
-    this.notes$.next(notes);
-    this.adjustSelectedNote(notes);
+    this.noteService.getNotes()
+    .pipe(
+      switchMap((notes: Note[]) => {
+        if (notes.length === 0) {
+          return this.noteService.createNote().pipe(
+            map((createdNote: Note) => [createdNote])
+          );
+        } else {
+          return of(notes);
+        }
+      })
+    ).subscribe(notes => {
+      this.notes$.next(notes);
+      this.adjustSelectedNote(notes);
+    });
   }
 
   private adjustSelectedNote(notes: Note[]): void {
