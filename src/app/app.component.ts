@@ -25,7 +25,21 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadNotes();
+    this.noteService.getNotes()
+    .pipe(
+      switchMap((notes: Note[]) => {
+        if (notes.length === 0) {
+          return this.noteService
+            .createNote()
+            .pipe(map((createdNote: Note) => [createdNote]));
+        } else {
+          return of(notes);
+        }
+      })
+    ).subscribe(notes => {
+      this.notes$.next(notes);
+      this.adjustSelectedNote(notes);
+    });
   }
 
   selectedNoteChange(note: Note): void {
@@ -69,24 +83,6 @@ export class AppComponent implements OnInit {
         this.notes$.next(localNotes);
         this.adjustSelectedNote(localNotes);
       });
-  }
-
-  private async loadNotes(): Promise<void> {
-    this.noteService.getNotes()
-    .pipe(
-      switchMap((notes: Note[]) => {
-        if (notes.length === 0) {
-          return this.noteService.createNote().pipe(
-            map((createdNote: Note) => [createdNote])
-          );
-        } else {
-          return of(notes);
-        }
-      })
-    ).subscribe(notes => {
-      this.notes$.next(notes);
-      this.adjustSelectedNote(notes);
-    });
   }
 
   private adjustSelectedNote(notes: Note[]): void {
