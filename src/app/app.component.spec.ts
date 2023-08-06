@@ -6,7 +6,7 @@ import { Note } from './note';
 import { NoteService } from './services/note.service';
 import { BrowserInteractionService } from './services/browser-interaction.service';
 import { newNote, newNumber, multiple } from './shared/testing/generators';
-import { firstValueFrom, of } from 'rxjs';
+import { firstValueFrom, from, of } from 'rxjs';
 
 describe('AppComponent', () => {
 
@@ -138,16 +138,30 @@ describe('AppComponent', () => {
 
   describe('saveNoteButtonClick', () => {
 
-    it('should call noteService#saveNote', async () => {
+    it('should call noteService#saveNote', () => {
       noteServiceSpy.getNotes.and.returnValue(of([]));
       noteServiceSpy.createNote.and.returnValue(of(emptyNote));
-      noteServiceSpy.saveNote.and.returnValue(of());
+      noteServiceSpy.saveNote.and.returnValue(of(void 0));
 
       appComponent.saveNoteButtonClick();
       fixture.detectChanges();
-      await fixture.whenStable();
 
       expect(noteServiceSpy.saveNote).toHaveBeenCalled();
+    });
+
+    it('should set replace reference of the element', async () => {
+      const note = newNote().make();
+      noteServiceSpy.getNotes.and.returnValue(of([note]));
+      noteServiceSpy.saveNote.and.returnValue(of(void 0));
+      appComponent.ngOnInit();
+
+      appComponent.saveNoteButtonClick();
+
+      const result = appComponent.selectedNote;
+      expect(result.text).toEqual(note.text);
+      expect(result.id).toEqual(note.id);
+      expect(result.isSaved).toEqual(note.isSaved);
+      expect(result === note).toBeFalse();
     });
 
   });

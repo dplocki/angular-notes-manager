@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Note } from "./note";
 import { NoteService } from './services/note.service';
 import { BrowserInteractionService } from './services/browser-interaction.service';
-import { BehaviorSubject, Subject, concatMap, firstValueFrom, map, of, switchAll, switchMap, take, zip } from 'rxjs';
+import { BehaviorSubject, Subject, map, of, switchMap, take, zip } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -61,7 +61,7 @@ export class AppComponent implements OnInit {
 
   saveNoteButtonClick(): void {
     this.noteService.saveNote(this.selectedNote)
-      .pipe(switchMap(() => this.notes$))
+      .pipe(switchMap(() => this.notes$.pipe(take(1))))
       .subscribe(notes => {
         const index = notes.findIndex(note => note.id === this.selectedNote.id);
         this.selectedNote = { ...this.selectedNote, isSaved: true };
@@ -76,7 +76,7 @@ export class AppComponent implements OnInit {
     }
 
     this.noteService.deleteNote(note)
-      .pipe(switchMap(() => this.notes$))
+      .pipe(switchMap(() => this.notes$.pipe(take(1))))
       .subscribe(notes => {
         const localNotes = notes.filter(n => note.id !== n.id);
 
