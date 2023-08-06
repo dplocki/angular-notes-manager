@@ -10,6 +10,12 @@ At the time (around 2016) I have used Angular 5, based on Node 7.
 
 The original code is available in this repo by tag: [1.0.0](https://github.com/dplocki/angular-notes-manager/releases/tag/1.0.0).
 
+## ⌨️ Current state
+
+* use Angular 16
+* the favicon comes from https://www.freefavicon.com/
+* promises has been replaced by observables
+
 ## 🛠️ Docker
 
 ```sh
@@ -43,7 +49,7 @@ Unfortunately, running the unit test during gateway checking was also not so eas
 ng test --browsers=ChromeHeadless --no-watch --no-progress
 ```
 
-### Visual Code estensions
+### Visual Code extensions:
 
 * [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
 * [Angular Language Service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template)
