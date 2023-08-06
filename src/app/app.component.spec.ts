@@ -171,8 +171,7 @@ describe('AppComponent', () => {
     it('should stop after browserInteractionService returning false', () => {
       browserInteractionServiceSpy.question.and.returnValue(false);
       const note = newNote().make();
-      noteServiceSpy.getNotes.and.returnValue(of([]));
-      noteServiceSpy.createNote.and.returnValue(of(emptyNote));
+      noteServiceSpy.getNotes.and.returnValue(of([note]));
 
       appComponent.deleteNote(note);
 
@@ -183,30 +182,27 @@ describe('AppComponent', () => {
     it('should run after browserInteractionService returning true', () => {
       browserInteractionServiceSpy.question.and.returnValue(true);
       const note = newNote().make();
-      noteServiceSpy.getNotes.and.returnValue(of([]));
+      noteServiceSpy.getNotes.and.returnValue(of([note]));
       noteServiceSpy.createNote.and.returnValue(of(emptyNote));
-      noteServiceSpy.deleteNote.and.returnValue(of());
+      noteServiceSpy.deleteNote.and.returnValue(of(void 0));
 
       appComponent.deleteNote(note);
-      fixture.detectChanges();
 
       expect(browserInteractionServiceSpy.question).toHaveBeenCalled();
       expect(noteServiceSpy.deleteNote).toHaveBeenCalled();
     });
 
-    it('should select first element if deleted is the selected one', async () => {
+    it('should select first element if deleted is the selected one', () => {
       browserInteractionServiceSpy.question.and.returnValue(true);
       const note = newNote().make();
       const notDeletedNotes = multiple(newNote(), newNumber(2, 5));
       const firstOnList = notDeletedNotes[0];
       noteServiceSpy.getNotes.and.returnValues(of([...notDeletedNotes, note]));
       noteServiceSpy.createNote.and.returnValue(of(emptyNote));
-      noteServiceSpy.deleteNote.and.returnValue(of());
+      noteServiceSpy.deleteNote.and.returnValue(of(void 0));
       fixture.detectChanges();
-      await fixture.whenStable();
 
       appComponent.deleteNote(note);
-      fixture.detectChanges();
 
       expect(browserInteractionServiceSpy.question).toHaveBeenCalled();
       expect(noteServiceSpy.deleteNote).toHaveBeenCalled();
