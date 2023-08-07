@@ -11,8 +11,6 @@ import { BehaviorSubject, Subject, map, of, switchMap, take, zip } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
-  private static readonly INTERVAL_TIME = 5000;
-
   selectedNote!: Note;
   notes$: Subject<Note[]>;
   isSavingInProgress = false;
@@ -55,7 +53,7 @@ export class AppComponent implements OnInit {
 
       notes.push(newNote);
       this.notes$.next(notes);
-      this.selectedNote = newNote;
+      this.selectedNoteChange(newNote);
     });
   }
 
@@ -64,7 +62,7 @@ export class AppComponent implements OnInit {
       .pipe(switchMap(() => this.notes$.pipe(take(1))))
       .subscribe(notes => {
         const index = notes.findIndex(note => note.id === this.selectedNote.id);
-        this.selectedNote = { ...this.selectedNote, isSaved: true };
+        this.selectedNoteChange({ ...this.selectedNote, isSaved: true });
         notes[index] = this.selectedNote;
         this.notes$.next(notes);
       });
@@ -89,11 +87,11 @@ export class AppComponent implements OnInit {
     if (this.selectedNote) {
       const selectedNote = notes.find(n => n.id === this.selectedNote.id);
       if (selectedNote) {
-        this.selectedNote = selectedNote;
+        this.selectedNoteChange(selectedNote);
         return;
       }
     }
 
-    this.selectedNote = notes[0];
+    this.selectedNoteChange(notes[0]);
   }
 }
