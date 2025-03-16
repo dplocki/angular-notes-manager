@@ -20,10 +20,16 @@ The original code is available in this repo by tag: [1.0.0](https://github.com/d
 
 ```sh
 docker build . -t angular-notes-manager
-docker run --rm -p 4200:4200 -p 9876:9876 -p 49153:49153 -v $(pwd):/build -it angular-notes-manager
+docker run --rm -p 4200:4200 -p 9876:9876 -p 49153:49153 -it angular-notes-manager
 ```
 
 ### Running the Angular app in container
+
+Enter the image:
+
+```sh
+docker run --rm -p 4200:4200 -p 9876:9876 -p 49153:49153 -v $(pwd):/build -it angular-notes-manager /bin/sh
+```
 
 You need to specify the host of the app (in `angular.json` configuration file) or by command:
 
