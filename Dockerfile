@@ -11,4 +11,8 @@ WORKDIR /build
 
 EXPOSE 4200 9876 49153
 
+COPY . /build
+
+RUN npm ci
+
 CMD [ "npm", "run", "start" ]
