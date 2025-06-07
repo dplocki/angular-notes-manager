@@ -3,9 +3,10 @@ import { Note } from '../note';
 import { ChangeDetector } from '../change-detector';
 
 @Component({
-  selector: 'app-note-detail',
-  template: '<textarea (keyup)="onKey($event)" [(ngModel)]="note.text"></textarea>',
-  styleUrls: ['./note-detail.component.less']
+    selector: 'app-note-detail',
+    template: '<textarea (keyup)="onKey($event)" [(ngModel)]="note.text"></textarea>',
+    styleUrls: ['./note-detail.component.less'],
+    standalone: false
 })
 export class NoteDetailComponent implements OnChanges {
   @Input()

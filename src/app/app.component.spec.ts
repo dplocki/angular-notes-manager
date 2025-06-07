@@ -16,12 +16,18 @@ describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
   let appComponent: AppComponent;
 
-  @Component({ selector: 'app-note-detail', template: '' })
+  @Component({
+    selector: 'app-note-detail', template: '',
+    standalone: false
+})
   class MockNoteDetailComponent {
     @Input() note!: Note;
   }
 
-  @Component({ selector: 'app-note-list', template: '' })
+  @Component({
+    selector: 'app-note-list', template: '',
+    standalone: false
+})
   class MockNoteListComponent {
     @Input() notes!: Note[];
     @Input() selectedNote!: Note;
@@ -29,17 +35,26 @@ describe('AppComponent', () => {
     @Output() noteDeleted = new EventEmitter<Note>();
   }
 
-  @Component({ selector: 'app-delete-button', template: '' })
+  @Component({
+    selector: 'app-delete-button', template: '',
+    standalone: false
+})
   class MockDeleteButtonComponent {
     @Output() invokeEvent = new EventEmitter();
   }
 
-  @Component({ selector: 'app-new-button', template: '' })
+  @Component({
+    selector: 'app-new-button', template: '',
+    standalone: false
+})
   class MockNewButtonComponent {
     @Output() invokeEvent = new EventEmitter();
   }
 
-  @Component({ selector: 'app-save-button', template: '' })
+  @Component({
+    selector: 'app-save-button', template: '',
+    standalone: false
+})
   class MockSaveButtonComponent {
     @Input() isSavingInProgress = false;
     @Output() invokeEvent = new EventEmitter();

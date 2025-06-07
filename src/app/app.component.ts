@@ -5,10 +5,11 @@ import { BrowserInteractionService } from './services/browser-interaction.servic
 import { BehaviorSubject, Subject, map, of, switchMap, take, zip } from 'rxjs';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class AppComponent implements OnInit {
   selectedNote!: Note;

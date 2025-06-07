@@ -12,17 +12,26 @@ describe('NoteListItemComponent', () => {
   let noteListItemComponent: NoteListItemComponent;
   let fixture: ComponentFixture<NoteListItemComponent>;
 
-  @Component({ selector: 'app-note-title', template: '' })
+  @Component({
+    selector: 'app-note-title', template: '',
+    standalone: false
+})
   class MockNoteTitleComponent {
     @Input() title!: Note;
   }
 
-  @Component({ selector: 'app-delete-button', template: '' })
+  @Component({
+    selector: 'app-delete-button', template: '',
+    standalone: false
+})
   class MockDeleteButtonComponent {
     @Output() deletedEvent = new EventEmitter();
   }
 
-  @Pipe({ name: 'noteTitle' })
+  @Pipe({
+    name: 'noteTitle',
+    standalone: false
+})
   class MockNoteTitlePipe implements PipeTransform {
     transform(value: Note): string { return value?.text ?? ''; }
   }

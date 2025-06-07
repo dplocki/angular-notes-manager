@@ -3,9 +3,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 const buttonTemplate = '<span>[<a (click)="invoke()" (keypress)="invoke()" tabindex="0">{{ label }}</a>]</span>';
 
 @Component({
-  selector: 'app-button',
-  template: buttonTemplate,
-  styles: []
+    selector: 'app-button',
+    template: buttonTemplate,
+    styles: [],
+    standalone: false
 })
 abstract class BaseButtonComponent {
 
@@ -22,9 +23,10 @@ abstract class BaseButtonComponent {
 }
 
 @Component({
-  selector: 'app-delete-button',
-  template: buttonTemplate,
-  styles: []
+    selector: 'app-delete-button',
+    template: buttonTemplate,
+    styles: [],
+    standalone: false
 })
 export class DeleteButtonComponent extends BaseButtonComponent {
 
@@ -36,9 +38,10 @@ export class DeleteButtonComponent extends BaseButtonComponent {
 }
 
 @Component({
-  selector: 'app-new-button',
-  template: buttonTemplate,
-  styles: []
+    selector: 'app-new-button',
+    template: buttonTemplate,
+    styles: [],
+    standalone: false
 })
 export class NewButtonComponent extends BaseButtonComponent {
 
@@ -50,11 +53,12 @@ export class NewButtonComponent extends BaseButtonComponent {
 }
 
 @Component({
-  selector: 'app-save-button',
-  template: `<span>[<a tabindex="0" [class.workInProgress]="isSavingInProgress" (click)="invoke()" (keypress)="invoke()" (keydown)="invoke()">{{ isSavingInProgress ? '...' : label }}</a>]</span>`,
-  styles: [`a.workInProgress {
+    selector: 'app-save-button',
+    template: `<span>[<a tabindex="0" [class.workInProgress]="isSavingInProgress" (click)="invoke()" (keypress)="invoke()" (keydown)="invoke()">{{ isSavingInProgress ? '...' : label }}</a>]</span>`,
+    styles: [`a.workInProgress {
     font-weight: bold;
-}`]
+}`],
+    standalone: false
 })
 export class SaveButtonComponent extends BaseButtonComponent {
 

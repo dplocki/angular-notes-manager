@@ -11,7 +11,10 @@ describe('NoteListComponent', () => {
   let component: NoteListComponent;
   let fixture: ComponentFixture<NoteListComponent>;
 
-  @Component({ selector: 'app-note-list-item', template: '' })
+  @Component({
+    selector: 'app-note-list-item', template: '',
+    standalone: false
+})
   class MockNoteListItemComponent {
     @Input() note!: Note;
     @Input() isSelected!: boolean;

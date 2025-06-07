@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Note } from './note';
 
 @Pipe({
-  name: 'noteTitle'
+    name: 'noteTitle',
+    standalone: false
 })
 export class NoteTitlePipe implements PipeTransform {
   private static readonly TITLE_MAX_LENGTH = 20;

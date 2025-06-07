@@ -2,17 +2,20 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { Note } from '../note';
 
 @Component({
-  selector: 'app-note-list',
-  template: `<ol>
-  <app-note-list-item *ngFor="let note of notes"
-                 [note]="note"
-                 [isSelected]="note === selectedNote"
-                 (click)="selectNote(note)"
-                 (keypress)="selectNote(note)"
-                 (noteDeleted)="deleteNote(note)" />
-</ol>`,
-  styles: [],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-note-list',
+    template: `<ol>
+    @for (note of notes; track note) {
+      <app-note-list-item
+        [note]="note"
+        [isSelected]="note === selectedNote"
+        (click)="selectNote(note)"
+        (keypress)="selectNote(note)"
+        (noteDeleted)="deleteNote(note)" />
+    }
+  </ol>`,
+    styles: [],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class NoteListComponent {
 

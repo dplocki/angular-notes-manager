@@ -1,14 +1,15 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-note-title',
-  template: `<ng-container *ngIf="title; else emptyTitle">
+    selector: 'app-note-title',
+    template: `@if (title) {
   <a>{{ title }}</a>
-</ng-container>
-<ng-template #emptyTitle>
+} @else {
   <a class="empty">(empty)</a>
-</ng-template>`,
-  styles: [ 'a.empty { color: lightgray; }' ]
+}
+`,
+    styles: ['a.empty { color: lightgray; }'],
+    standalone: false
 })
 export class NoteTitleComponent {
 

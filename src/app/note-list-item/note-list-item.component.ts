@@ -2,13 +2,14 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { Note } from '../note';
 
 @Component({
-  selector: 'app-note-list-item',
-  template: `<li [class.selected]="isSelected" [class.not-saved]="!(note?.isSaved)" tabindex="0">
+    selector: 'app-note-list-item',
+    template: `<li [class.selected]="isSelected" [class.not-saved]="!(note?.isSaved)" tabindex="0">
   <app-note-title [title]="note! | noteTitle" />
   <app-delete-button (invokeEvent)="deleteNote()" />
 </li>`,
-  styleUrls: ['./note-list-item.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    styleUrls: ['./note-list-item.component.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class NoteListItemComponent {
 

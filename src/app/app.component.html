@@ -1,17 +1,21 @@
 <section class="app">
-    <header>
-        <app-new-button (invokeEvent)="addNoteButtonClick()" />
-        <app-save-button [isSavingInProgress]="isSavingInProgress" (invokeEvent)="saveNoteButtonClick()" />
-        <app-delete-button (invokeEvent)="deleteNote(selectedNote)" />
-    </header>
-    <article>
-        <app-note-detail *ngIf="selectedNote" [note]="selectedNote" />
-    </article>
-    <aside *ngIf="notes$ | async as notes">
-        <app-note-list
-            [notes]="notes"
-            [selectedNote]="selectedNote"
-            (noteSelectionChange)="selectedNoteChange($event)"
-            (noteDeleted)="deleteNote($event)" />
+  <header>
+    <app-new-button (invokeEvent)="addNoteButtonClick()" />
+    <app-save-button [isSavingInProgress]="isSavingInProgress" (invokeEvent)="saveNoteButtonClick()" />
+    <app-delete-button (invokeEvent)="deleteNote(selectedNote)" />
+  </header>
+  <article>
+    @if (selectedNote) {
+      <app-note-detail [note]="selectedNote" />
+    }
+  </article>
+  @if (notes$ | async; as notes) {
+    <aside>
+      <app-note-list
+        [notes]="notes"
+        [selectedNote]="selectedNote"
+        (noteSelectionChange)="selectedNoteChange($event)"
+        (noteDeleted)="deleteNote($event)" />
     </aside>
+  }
 </section>
