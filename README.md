@@ -12,7 +12,7 @@ The original code is available in this repo by tag: [1.0.0](https://github.com/d
 
 ## ⌨️ Current state
 
-* use Angular 16
+* uses Angular 20
 * the favicon comes from https://www.freefavicon.com/
 * promises has been replaced by observables
 
